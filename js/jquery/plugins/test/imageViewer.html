@@ -1,0 +1,249 @@
+<!doctype html>
+<html>
+<head>			
+	<title>图片查看Gallery</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<style type="text/css">
+		body, nav, figure, ul { margin: 0; padding: 0; }
+		body { 
+			background-color:#E9E9E9; 
+			font: normal 100% Consolas, 'Microsoft Yahei', 微软雅黑, 冬青黑体, 'Hiragino Sans GB', 华文细黑, 'STHeiti Light', 华文黑体, STHeiti;
+			-webkit-user-select: none;
+		}
+		.header {
+			color: #fff;
+			text-align: center;
+			background-color: #414CA0;
+			line-height: 3em;
+		}
+		.page-box {
+			display: inline-block;
+		}
+		figure ul {
+			text-align: center;
+		}
+		figure li { 
+			list-style: none;
+			display: inline-block;
+			margin: 0.8em 0.6em;
+			background-color: #FFF;
+			width: 13%;
+			padding: 0.5em 0.5em .5em 0.5em;
+		}
+		figure li {
+			/*box-shadow: .2em .2em .5em .1em #AAA;*/
+		}
+		.hover-shadow-zoom {
+			box-shadow: 0 0 1.5em .2em #AAA; /* box-shadow: .2em .2em .5em .1em #AAA;*/
+			-webkit-transform: scale(2);
+			-webkit-transition: -webkit-transform 1s;
+		}
+		/*.viewed-record {
+			border-left: .2em solid #FFF;
+			display: inline;
+			margin-left: 1em;
+			padding-left: .5em;
+		}
+		.viewed-number {
+			margin: 0 .5em;
+			color: #00F5FF;
+		}*/
+		.page-view-read:after {
+			content: '√';
+		}
+		.clear-viwed-history {
+			border: .1em solid #FFF;
+			border-radius: .1em;
+			padding: .3em .5em;
+			cursor: pointer;
+		}
+		.clear-viwed-history:hover {
+			background-color: #FF7800;
+			border: 1px solid #FF7800;
+		}
+	</style>
+
+	<script src="../../jquery-1.11.0.min.js"></script>
+	<script src="../js/pluginUtil.js"></script>
+	<script src="../js/pageView.js"></script>
+	<script src="frms/angular-1.2.23.min.js"></script>
+
+</head>
+
+<body ng-app="Gallery" ng-controller="GalleryCtr">
+<!-- http://cache.onlyimg.com/pics/2014123003/{{i}}.jpg -->
+<nav class="header">
+<div class="page-box"></div>
+<!-- 
+<div class="viewed-record">
+	<span class="viewed-number" ng-bind="viewedMin"></span>-<span class="viewed-number" ng-bind="viewedMax"></span>viewed
+</div>
+-->
+<span class="clear-viwed-history" ng-click="clearHistory()">清除历史记录</span>
+</nav>
+
+<figure>
+<ul id="gallery">
+	<li ng-repeat="i in range"><img ng-src="images/1.jpg" width="100%" />{{i}}.jpg</li>
+</ul>
+</figure>
+<nav class="page-box"></nav>
+
+
+
+<script>
+;(function ($, win) {
+	var setTimeout = win.setTimeout,
+		clearTimeout = win.clearTimeout,
+		max = win.Math.max,
+		JSON = win.JSON,
+
+		storedInfo = JSON.parse(storage('imageViewer_info') || '{}'),
+		initialPage = 1,
+		curPage = storedInfo.page || initialPage,
+		number = 6,
+		start = 0, // 26179
+		stop = curPage * number,
+		timer = 0,
+		hoverTimeInMS = 600,
+		$target,
+		
+		//viewedMax = storedInfo.max || stop - 1,
+		viewedPages = storedInfo.viewedPages || [curPage],
+		$pageBox = $('.page-box'),
+		$nums,
+		hasClearedHistory = false;
+
+	// angular处理html
+	var galleryModule = angular.module('Gallery', []);
+
+	galleryModule.controller('GalleryCtr', function ($scope) {
+
+		$pageBox.pageView({
+			count: 8, 
+			current: curPage,
+			onchange: function (page) {
+
+				$scope.$apply(function () {
+					var classes = $nums[page-1].classList;
+					
+					if (!classes.contains('page-view-read')) {
+						classes.add('page-view-read');
+						viewedPages.push(page);
+					}
+					
+				    $scope.loadImages(page);
+					curPage = page;
+				});
+			}
+			/*,
+			relative: true*/
+		});
+		
+		$nums = $pageBox.find('.num');
+		markPage();
+
+		$scope.range = makeRange((curPage - 1) * number, stop);
+		//$scope.viewedMin = start;
+		//$scope.viewedMax = viewedMax;
+
+		$scope.loadImages = function (page) {
+			start = (page - 1) * number;
+			stop = start + number;
+			$scope.range = makeRange(start, stop);
+			//viewedMax = $scope.viewedMax = max(viewedMax, stop - 1);
+			//console.log('load image of page #' + page + ' from ' + start + ' to ' + (stop - 1));
+		};
+		
+		$scope.clearHistory = function () {
+		    
+			if (window.confirm('确定要删除浏览历史记录？')) {
+				$nums.removeClass('page-view-read');
+				//$pageBox.pageView.setCurrent(initialPage);
+				storage('imageViewer_info', '');
+				hasClearedHistory = true;
+			}
+			
+		};
+	});
+
+	// li添加hover事件，加入timer防止频繁hover
+	$('#gallery').on({
+		mouseenter: function () {
+			$target = $(this);
+
+			if (timer) {
+				clearTimeout(timer);
+			}
+
+			timer = setTimeout(function () {
+			    $target.addClass('hover-shadow-zoom');
+			}, hoverTimeInMS)
+		},
+		mouseleave: function () {
+			$target = $(this);
+			clearTimeout(timer);
+			if ($target.hasClass('hover-shadow-zoom')) {
+				$target.removeClass('hover-shadow-zoom');
+			}
+		},
+		click: function () { // 手机没有hover事件
+		    $(this).addClass('hover-shadow-zoom');
+		}
+	}, 'li');
+	
+	// store viewedMax and page
+	window.onbeforeunload = function () {
+		!hasClearedHistory && storage('imageViewer_info', JSON.stringify({
+			page: curPage,
+			//max: viewedMax,
+			viewedPages: viewedPages
+		}));
+	};
+
+	// functions
+	function markPage() {
+		viewedPages.forEach(function (v, i) {
+		    //$pageBox.find('[data-num='+v+']').addClass('page-view-read');
+			$nums[v-1].classList.add('page-view-read');
+		});
+	}
+	// 简单的localStorage存取函数
+	function storage(key, value) {
+		var localStorage = window.localStorage;
+		if (localStorage) {
+			storage = function (key, value) {
+			    if (typeof value === 'undefined') {
+					return localStorage[key];
+				}
+				
+				localStorage[key] = value;
+				return true;
+			}
+			
+		}
+		else {
+		    storage = function () {
+		        return false;
+		    }
+		}
+
+		return storage(key, value);
+	}
+
+	function makeRange(low, high) {
+		var range = [],
+			i = 0;
+
+		while (low < high) {
+			range[i++] = low++;
+		}
+
+		return range;
+	}
+
+}(jQuery, window));
+</script>
+</body>
+</html>
