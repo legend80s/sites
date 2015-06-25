@@ -94,10 +94,10 @@
 		var imgUrls = [
 			'qq-boat.jpg', 'red_heart.jpg', 'yellow1.jpg', 'determination.jpg', 'kor1.jpg',
 			'chocolate1.jpg', 'swan2.jpg', 'qq2.jpg', 'qq-balloon.jpg','qq-egg.jpg',
-			'pool.jpg', 'qq-1.jpg', 'qq-3.jpg', 'qq-4.jpg', 'qq-5.jpg', 'qq-6.jpg',
-			'qq-7.jpg', 'daddy-huangLei.jpg', 'CrayonPop.jpg',
-			'cartoonGirl.jpg', 'comic_girl_armed.jpg', 'volcanoBlueSky.jpg', 'aurora.jpg',
-			'shore.jpg', 'blue-starring.jpg', 'mountain-water.jpg', 'NGM-mountain-water.jpg',
+			'pool.jpg', 'qq-1.jpg', 'qq-3.jpg', 'qq-4.jpg', 'qq-5.jpg', 'qq-6.jpg', 
+			'qq-7.jpg', 'daddy-huangLei.jpg', 'CrayonPop.jpg', 
+			'cartoonGirl.jpg', 'comic_girl_armed.jpg', 'aurora.jpg',
+			'shore.jpg', 'mountain-water.jpg', 'NGM-mountain-water.jpg',
 			// 游戏壁纸
 			'game/tropico-1.jpg', 'game/tropico-2.jpg'
 		], // background/game/the-light-of-darkness-03.jpg
@@ -132,44 +132,37 @@
 		var urls = {
 				'news': {
 					url:'http://news.baidu.com/ns',
-					word : '?ie=utf-8&word=',
-					name : 'word'
+					word : '?ie=utf-8&word='
 				},
 				'www': {
 					url : 'http://www.baidu.com/s',
-					word : '?ie=utf-8&wd=',
-					name : 'wd'
+					word : '?ie=utf-8&wd='
 				},
 				'tieba': {
 					url : 'http://tieba.baidu.com/f',
-					word : '?ie=utf-8&kw=',
-					name : 'kw'
+					word : '?ie=utf-8&kw='
 				},
-				'zhidao': {
-					url : 'http://zhidao.baidu.com/search',
-					word : '?ie=utf-8&word=',
-					name : 'word'
+				'dict': {
+					url : 'http://dict.youdao.com/search',
+					word : '?le=eng&q='
 				},
 				'music': {
 					url : 'http://music.baidu.com/search',
-					word : '?ie=utf-8&key=',
-					name : 'key'
+					word : '?ie=utf-8&key='
 				},
 				'image': {
 					url : 'http://image.baidu.com/i',
-					word : '?ie=utf-8&word=',
-					name : 'word'
+					word : '?ie=utf-8&word='
 				},
 				'video': {
 					url : 'http://video.baidu.com/v',
-					word : '?ie=utf-8&word=',
-					name : 'word'
+					word : '?ie=utf-8&word='
 				},
 				'map': {
 					url : 'http://map.baidu.com/',
-					word : '?newmap=1&ie=utf-8&s=s%26wd%3D',
-					name : 'wd'
-				}/*,  // belowers not listed in 我的网站导航
+					word : '?newmap=1&ie=utf-8&s=s%26wd%3D'
+				}
+        /*,  // belowers not listed in 我的网站导航
 				'baike': {
 					url: 'http://baike.baidu.com/search',
 					word : '/word?enc=utf8&word=',
@@ -179,7 +172,13 @@
 					url : 'http://wenku.baidu.com/search',
 					word : '?ie=utf-8&word=',
 					name : 'word'
-				}*/
+				},
+        'zhidao': {
+					url : 'http://zhidao.baidu.com/search',
+					word : '?ie=utf-8&word=',
+					name : 'word'
+				}
+       */ 
 			},
 			reg1 = /^http:\/\/([^.]+)\./,
 			encURIComp = win.encodeURIComponent;
