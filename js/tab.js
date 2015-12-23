@@ -1,26 +1,27 @@
 /*
  * tab.js
- * 2014/11/14 
+ * 2014/11/14
  * legend80s-bupt
- * 
+ *
  * 2014/11/30 18:44 进一步减少全局变量
  */
 
 (function () {
 	var win = window,
 		doc = document,
-		min = win.Math.min, 
-		eq2ch = win.legend.string.engQuotationToCh, 
+		min = win.Math.min,
+		eq2ch = win.legend.string.engQuotationToCh,
 		picerr = win.legend.pic.err,
 		createNS = win.legend.createNS,
-		loadScript = win.legend.html.loadScript, 
+		loadScript = win.legend.html.loadScript,
 		ftm = win.legend.number.formatTime,
 		makeAnchor = win.legend.html.makeAnchor,
 		storage = legend.storage,
 
 		cb = legend.cb = legend.cb || {}, // 所有的jsonp回调函数挂载于此
 
-		YK_SRCH_ADDRESS = "http://www.soku.com/search_video",
+		YK_SRCH_ADDRESS = "http://www.soku.com/v?keyword=",
+		// YK_SRCH_ADDRESS = "http://www.soku.com/search_video",
 
 		tab = {
 			news: (function () {
@@ -49,14 +50,14 @@
 			hasNewsLoaded: false
 		},
 		videoMax = tab.video.max,
-		$site = $('#site'), 
-		$video = $('#video'), 
-		$news = $('#news'), 
+		$site = $('#site'),
+		$video = $('#video'),
+		$news = $('#news'),
 		$videoTop = $('.ps-container .video-top'),
 		rankedVideosBody, // 在 initBottomVideo 处初始化
 
 		cb = legend.cb = legend.cb || {}; // 所有的jsonp回调函数挂载于此
-	
+
 	function hasTopVideos() {
 	    return $videoTop.children().length !== 0;
 	}
@@ -91,7 +92,7 @@
 		// http://opendata.baidu.com/api.php?resource_id=6864&from_mid=1&&format=json&ie=utf-8&oe=utf-8&query=%E7%BB%BC%E8%89%BA%E6%8E%92%E8%A1%8C%E6%A6%9C&sort_key=16&sort_type=1&stat0=&stat1=&stat2=&stat3=&pn=0&rn=8&cb=jQuery110209678341255057603_1415769194668&_=1415769194671
 
 		var video360Rank = (function () {
-			// 数据来源：360搜索综艺排行榜 
+			// 数据来源：360搜索综艺排行榜
 			var program = {}, // 保存上一次查询的节目数据，用于错误恢复
 				outerCallback = function () {}, // 外部数据处理回调函数
 				srcRecentHrefNameReg = /<img src=\"([^\"]+)\".*?info-up\">([^<]+)<.*?<p class=\"name aline\"><a href=\"([^\"]+)\"[^>]*>([^<]+)</g,
@@ -102,12 +103,12 @@
 			}
 			var query = get360EncodeFormat('综艺'),//
 				url = get360EncodeFormat('综艺排行'), // limit:10一页展现10条结果
-				addInfo = get360EncodeFormat('types:全部|region:全部|year:全部|limit:10'), 
+				addInfo = get360EncodeFormat('types:全部|region:全部|year:全部|limit:10'),
 				tpl = '2', // 1是json数据，tpl=1是html数据
 				params = 'query='+query+'&url='+url+
 				'&type=relation_variety_rank&src=onebox&num=1&addInfo=',
 				completeUrl = 'http://open.onebox.so.com/dataApi?&tpl='+tpl+'&callback=legend.cb.get360RankedVideos'+'&_'+(new Date()).getTime()+'&'+params;
-			// tpl = 1 html 
+			// tpl = 1 html
 			// tpl = 2 json
 			function request(_outerCallback, _page) {
 				var tempAddInfo = addInfo + (isFinite(_page) ? get360EncodeFormat('|page:'+_page) : ''); // 避免影响 addInfo，新建了一个变量 tempAddInfo
@@ -194,17 +195,17 @@
 				360: video360Rank.url,
 				baidu: 'http://opendata.baidu.com/api.php?resource_id=6864&from_mid=1&&format=json&ie=utf-8&oe=utf-8&query=综艺&sort_key=16&sort_type=1&pn=0&rn=10&cb=mycb&_='+(new Date().getTime())
 			},
-			
+
 			/*
 			iqiyi: 'http://qiyu.iqiyi.com/p13n?cids=-1_13&area=lizard&callback=legend.cb.addIqiyiVideo',
 			*/
 			/*youku: {
-				recommend: 'http://ykrec.youku.com/personal/packed/list.json?apptype=1&pg=8&module=1&pl=12&picSize=1&module=1&callback=Youku.getUserRecommend', 
+				recommend: 'http://ykrec.youku.com/personal/packed/list.json?apptype=1&pg=8&module=1&pl=12&picSize=1&module=1&callback=Youku.getUserRecommend',
 				userInfo: 'http://nc.youku.com/index/getUserinfo?nu=1&__callback=Youku.getUserinfo',
-				userId: '', 
+				userId: '',
 				userName: ''
 			},
-			youkuRecord: 'http://www.youku.com/index_cookielist/s/jsonp?callback=CloudRecords.getRecordsData&timestamp=14053567327141vmki908bv',*/ 
+			youkuRecord: 'http://www.youku.com/index_cookielist/s/jsonp?callback=CloudRecords.getRecordsData&timestamp=14053567327141vmki908bv',*/
 			news360: 'http://tjapi.news.so.com/youlike?callback=legend.cb.setNewsData&f=jsonp&n='
 			// http://zy.youku.com/
 			// 360娱乐新闻 http://tjapi.news.so.com/youlike?callback=gSetNewsData&f=jsonp&c=fun
@@ -213,7 +214,7 @@
 			//http://top.news.sina.com.cn/ws/GetTopDataList.php?top_channel=news&top_type=day&top_cat=www_all&top_time=today&top_show_num=8&top_order=ASC&js_var=data&callback=hncb_all_list_01
 		};
 		// public
-		// load resoures 
+		// load resoures
 		function load(type, process, callback, cls) {
 			process = process || loadScript;
 			callback = callback || function () {};
@@ -225,7 +226,7 @@
 					if (!hasTopVideos()) {
 						console.log(type);
 						//alert('error，无法从网上获取视频信息');
-            console.error('360不给力，无法从网上获取视频信息');
+            console.info('360不给力，无法从网上获取视频信息');
 						showVideoFromLocalStorage();
 					}
 					callback();
@@ -263,7 +264,7 @@
 		//console.log('youku recommend:');console.log(r.data);
 		//var fv = formatVideoData(vs);
 
-		var vs = video.data, banner, v, linkcls = 'i-title', desc, 
+		var vs = video.data, banner, v, linkcls = 'i-title', desc,
 			u = Resource.urls.youku.userName, user = u ? '您好 ' + u : '',
 			r = ['<div class="videos"><p class="from">来自优酷 '+ user +'</p><ul>'];
 		Resource.urls.youku.userName = '';
@@ -292,13 +293,13 @@
 			banner,
 			p, // 添加页数 2014/8/29 0:11
 			htmls = Resource.video360Rank.htmls;
-			
+
 		$('.from')[0].innerHTML = data.site.slogon;
 
 	    for (var i = 0, len = data.len; i < len; ++i) {
 			banner = '<div class="banner">'+(rightBanners[i]||'')+'</div>';
-			
-	        r += ('<li class="video-li"><div><a href="' + imgs.link[i] + 
+
+	        r += ('<li class="video-li"><div><a href="' + imgs.link[i] +
 				'"><img class="video-img" width="124" height="160" src="' + imgs.src[i] + '" alt="' + briefIntros[i] + '"/>' + banner + '</a></div><div class="i-title"><p class="ellipsis"><a href="' + imgs.link[i] + '" title="' + briefIntros[i] + '">' + data.name[i] + '</a></p></div></li>');
 	    }
 		p = win.parseInt(page ? page : 1);
@@ -313,19 +314,19 @@
 			htmls[p] = rankedVideosBody.innerHTML;
 		});
 	}
-	function getFormatedData(len, siteObj, imgBottomBannerObj, 
+	function getFormatedData(len, siteObj, imgBottomBannerObj,
 			imgObj, name, briefIntros) {
 
-		var left = [], 
+		var left = [],
 			right = [];
-		
+
 		//console.log('name:' + name);
 
 	    return {
 			len: len,
 			site: siteObj, // slogon, link
 			imgBottomBanner: {
-				left: imgBottomBannerObj.left, 
+				left: imgBottomBannerObj.left,
 				right: imgBottomBannerObj.right
 			}, // left, right
 			img: imgObj, // src link
@@ -354,13 +355,13 @@
 
 				//tab.video.config.MAX_VIDEO_COUNT
 				var ftd = getFormatedData(
-					min(data.itemLength, videoMax), 
+					min(data.itemLength, videoMax),
 					{
-						slogon: '来自360搜索综艺排行榜', 
+						slogon: '来自360搜索综艺排行榜',
 						link: 'http://www.so.com/s?q=%E7%BB%BC%E8%89%BA'
 					},
 					{
-						left: [], 
+						left: [],
 						right: data.recent
 					},
 					data.img,
@@ -389,12 +390,12 @@
 		}, 'video360Top-jsonp');
 		//Resource.load('iqiyi');
 		//Resource.load('youku');
-		
+
 	}
 
 	function switchTab() {
-		var prevTab = $site, 
-			prevTitle = $('li[data-key=site]'), 
+		var prevTab = $site,
+			prevTitle = $('li[data-key=site]'),
 			key;
 
 		$('#menus').on('click', '.menu', function (e) {
@@ -437,7 +438,7 @@
 				else {
 				    banner = '<div class="banner"><p class="left-banner">'+v.total_set_num+'集全部</p>';
 				}
-			    
+
 			} // 综艺
 			else if (v.channel_id === 6){
 				banner = '<div class="banner"><p class="left-banner">'+v.focus+'</p><p class="right-banner">'+v.prem_date.substring(5)+'期</p></div>';
@@ -446,7 +447,7 @@
 			r.push(['<li><div><a href="', v.play_url, '" title="', v.album_name, '"><img width="180" height="101" src="', v.pic_url.replace('.jpg','_180_101.jpg'), '" alt="', v.album_name, '"/>', banner, '</a></div><div class="', linkcls, '"><p class="ellipsis"><a href="', v.play_url, '" title="', v.album_name, '">', linkcontent, '</a></p></div></li>'].join(''));
 		}
 		r.push('</div></ul>');
-		
+
 		// channel_id = 6 综艺 focus = focus + prem_date 2014-06-27 06-27期
 		// channel_id = 2 电视剧 focus = 更新至current_set_num/共29集
 		$('#video').find('.iqiyi-videos').remove();
@@ -461,13 +462,13 @@
 	// 视频模块
 	var video = (function (v) {
 		var _src = {
-				'youku': '优酷视频', 'sohu': '搜狐视频', 'qq': '腾讯视频', 
-				'tudou': '土豆视频', 'hunantv': '芒果台视频', 'iqiyi': '爱奇艺', 
+				'youku': '优酷视频', 'sohu': '搜狐视频', 'qq': '腾讯视频',
+				'tudou': '土豆视频', 'hunantv': '芒果台视频', 'iqiyi': '爱奇艺',
 				'wasu': '华数视频', 'cntv': 'cntv(中国网络电视台)', 'letv': '乐视tv',
 				'kankan': '迅雷看看', 'pptv': 'PPTV', 'biquge': '笔趣阁'
 			},
 			// 提取 http://www.youku.com 中的 youku
-			_srcRegx = /^http:\/\/[\w]+\.([\w]+)\.[\w]+/, 
+			_srcRegx = /^http:\/\/[\w]+\.([\w]+)\.[\w]+/,
 			_host;
 
 	    function _videoFrom(url) {
@@ -487,7 +488,7 @@
 		v.videoFrom = _videoFrom;
 		return v;
 	}(video || {}));
-	
+
 	// 可恶的360视频 现在360视频已经更换json接口，已稳定
 	// 又更换了新的接口 2014/9/3 12:26
 	//win.Video = {};
@@ -503,10 +504,11 @@
 
 		console.log('_t: 360 video updated online');
 		//$videoTop.empty();
-	
+
 		var data = v.data.onebox, title, upinfo, videoInfos,
 			encode = win.encodeURIComponent,
-			searchHost = YK_SRCH_ADDRESS + '/q_',
+			searchHost = YK_SRCH_ADDRESS,
+			// searchHost = YK_SRCH_ADDRESS + '/q_',
 			first = data[0],
 			searchUrl = searchHost + encode(first.kw),
 			playUrl = first.upurl || first.pdurl || searchUrl,
@@ -517,7 +519,7 @@
 		title = eq2ch((first.pdname || first.title)) + ' 更新至' + upinfo;
 
 		videoInfos = '<li class="first others1">' + makeAnchor('立即播放', playUrl, 'play orange-color', '播放'+upinfo+' - 来自' + video.videoFrom(playUrl)) + '<a href="' + searchHost + encode(first.kw) + '" class="area" title="' + title + '"></a><img onerror="legend.pic.err(this,4)" src="' + first.cover + '" alt="' + first.title + '"/><div class="con"><h4>[' + first.type + '] ' + first.title + '</h4><p>更新至：<strong>' + upinfo + '</strong></p></div></li>';
-		
+
 		// fill data for others
 		var dataCount = data.length,
 			d,
@@ -525,8 +527,8 @@
 		for (i = 1; i < dataCount; ++i) {
 			d = data[i];
 			upinfo = '第' + (d.pd ? d.pd + '期' : d.upinfo + '集');
-			playUrl = d.upurl || d.pdurl;			
-			playLink = playUrl ? 
+			playUrl = d.upurl || d.pdurl;
+			playLink = playUrl ?
 				makeAnchor('立即播放', playUrl, 'play orange-color', '播放'+upinfo+' - 来自'+video.videoFrom(playUrl))
 				: '';
 
@@ -536,7 +538,7 @@
 		//$videoTop.append(videoInfos);
 		$videoTop[0].innerHTML = videoInfos;
 		storage('videoInfos', videoInfos);
-	};	
+	};
 
 	function refreshVideos() {
 		tab.hasVideoLoaded = false; // 阻止首次自动加载和切tab，重复加载2次的问题
@@ -662,12 +664,12 @@
 			_rootRegExp = /^(net|com|cn)$/, // a more effective one - 2014/11/13 11:15
 			_partsRegExp = /(?:\w+\.)+\w+/;
 		// http://news.cnr.com.cn/native/gd/201411/t20141111_516763978.shtml
-		// input: http://world.people.com.cn/n/2014/1110/c157278-26000444.html 
+		// input: http://world.people.com.cn/n/2014/1110/c157278-26000444.html
 		// output: ['people', 'world']
 		// [medium, channel]
 		function _getHostParts(url) {
-			return url.match(_partsRegExp)[0].split('.').filter(function (v) { 
-				return !(_rootRegExp.test(v)); 
+			return url.match(_partsRegExp)[0].split('.').filter(function (v) {
+				return !(_rootRegExp.test(v));
 			}).reverse();
 		}
 
@@ -681,7 +683,7 @@
 			else {
 				_med = parts[0]; // 'mydrivers'
 				_chn = parts[1]; // 'news'
-				
+
 				return (_media[_med] || ' '+_med) + (_chn && (_channels[_chn] || '（'+_chn+'）') || '');
 			}
 		}
@@ -707,10 +709,10 @@
 			return ;
 		}
 
-		var articles = '', 
-			src, 
-			picClass = '', 
-			picStr = '', 
+		var articles = '',
+			src,
+			picClass = '',
+			picStr = '',
 			link,
 			i,
 			newsCount,
@@ -727,11 +729,11 @@
 				picClass = ' pic';//
 				picStr = '<figure class="img-box"><img onerror="legend.pic.err(this,9)" src="'+src+'" alt="'+title+'"/></figure>';
 			}
-			
+
 		    articles += ('<article class="article' + picClass + '"><h4 class="article-title"><a href="' + link + '" title="' + prompt + '" class="article-title-link">'+ title + picStr +'</a></h4><a href="javascript:void(0);" class="del" title="删除该条新闻"></a><p class="brief">' + n[i].s + '</p></article>');
-			
+
 			//articles += ('<article class="article' + picClass + '"><h4 class="article-title"><a href="' + link + '" title="' + prompt + '" class="article-title-link">' + title + '</a></h4><a href="javascript:void(0);" class="del" title="删除该条新闻"></a>' + picStr + '<p class="brief">' + n[i].s + '<a href="' + link + '">[详情]</a></p></article>');
-			
+
 			picClass = '';
 			picStr = '';
 		}
@@ -747,7 +749,7 @@
 	function deleteWhenClick() {
 		$news.on('click', '.del', function () {
 			var requestNumber = news.getRequestNumber();
-			
+
 			// 第一次点击或全部删除后的第一次点击
 			if (news.left === 0) {
 				news.left = news.getDisplayedNumber();
@@ -790,8 +792,8 @@
 		}
 	}
 	function sinktoLast($target) {
-		// $target.remove(); 
-		// 除了节点本身以外，节点绑定的事件和该节点相关的JQuery数据，也会被同时清除, 
+		// $target.remove();
+		// 除了节点本身以外，节点绑定的事件和该节点相关的JQuery数据，也会被同时清除,
 		// 所以原先绑定的click事件也被删除了
 		//$news.append($target.detach());
 		//$news.append($target.remove());

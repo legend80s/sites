@@ -1,20 +1,18 @@
 /*
- * siteTab.js
  * 2014/1/20
  * legend80s-bupt
  * 整顿var，改成单var形式
  * 闭包保卫全局作用域不被tainted
  */
 
-;(function () {
-	var win = window,
-		doc = document,
-		storage = win.legend.storage,
-		id = legend.html.id,
-		errHide = legend.pic.errHide,
+;(function (win, doc, $) {
+	var storage = win.legend.storage,
+			id = win.legend.html.id,
+			errHide = win.legend.pic.errHide,
 
-		localStorage = win.localStorage,
-		SITE_URL = location.href;
+			localStorage = win.localStorage,
+			isNewDay = win.legend.calendar.date.isNewDay,
+			SITE_URL = location.href;
 
 	var BAIDU_PAN_SUFFIX = ' site:pan.baidu.com',
 		W3SCHOOL_SUFFIX = ' site:w3school.com.cn',
@@ -24,7 +22,7 @@
 		/*BAIDU_ADDRESS = 'http://www.baidu.com/s',
 		BAIDU_NAME = 'word',
 
-		GOOGLE_ADDRESS = 'http://www.google.com.hk/search',
+		GOOGLE_ADDRESS = 'http://www.google.com/search',
 		GOOGLE_NAME = 'q',
 
 		YOUDAO_ADDRESS = 'http://dict.youdao.com/search',
@@ -43,7 +41,11 @@
 		BUPT_ADDRESS = 'http://211.68.68.211/opac_two/search2/searchout.jsp?srctop=top2&suchen_match=qx&recordtype=all&suchen_type=1&snumber_type=Y&search_no_type=Y&library_id=all&show_type=wenzi&client_id=web_search',
 		IQIYI_ADDRESS = 'http://so.iqiyi.com/so/q_',
 		*/
-		google = { url: 'https://www.google.com.hk/search', name: 'q' },
+		google = {
+			url: 'https://www.google.com.hk/search',
+			name: 'q'
+		},
+
 		searches = {
 			baidu: {
 				url: 'http://www.baidu.com/s',
@@ -55,8 +57,8 @@
 				name: 'q'
 			},
 			youku: {
-				url: 'http://www.soku.com/search_video',
-				name: 'q'
+				url: 'http://www.soku.com/v',
+				name: 'keyword'
 			},
 			sohu: {
 				url: 'http://so.tv.sohu.com/mts',
@@ -91,26 +93,26 @@
 	}
 
 	var changeBackground = (function () {
-		var imgUrls = [
-			'qq-boat.jpg', 'red_heart.jpg', 'yellow1.jpg', 'determination.jpg', 'kor1.jpg',
+		var imgs = [
+			'qq-boat.jpg', 'yellow1.jpg', 'determination.jpg', 'kor1.jpg',
 			'chocolate1.jpg', 'swan2.jpg', 'qq2.jpg', 'qq-balloon.jpg','qq-egg.jpg',
 			'pool.jpg', 'qq-1.jpg', 'qq-3.jpg', 'qq-4.jpg', 'qq-5.jpg', 'qq-6.jpg',
 			'qq-7.jpg', 'daddy-huangLei.jpg', 'CrayonPop.jpg',
-			'cartoonGirl.jpg', 'comic_girl_armed.jpg', 'volcanoBlueSky.jpg', 'aurora.jpg',
+			'cartoonGirl.jpg', 'aurora.jpg',
 			'shore.jpg', 'blue-starring.jpg', 'mountain-water.jpg', 'NGM-mountain-water.jpg',
 			// 游戏壁纸
 			'game/tropico-1.jpg', 'game/tropico-2.jpg'
 		], // background/game/the-light-of-darkness-03.jpg
-		imgCount = imgUrls.length,
+		imgCount = imgs.length,
 		//bodyStyle = doc.body.style,
 		day = new Date().getDate();
 
 		function varyBackgroundImageByDay() {
-			setBackground('images/background/' + imgUrls[day % imgCount]);
+			setBackground('images/background/' + imgs[day % imgCount]);
 		}
 
 		function varyBackgroundImageByRandom() {
-			setBackground('images/background/' + imgUrls[(Math.random()*imgCount)|0]);
+			setBackground('images/background/' + imgs[(Math.random()*imgCount)|0]);
 		}
 
 		function isSetToFestival() {
@@ -406,27 +408,14 @@
 	function getUrlFilename(url) {
 	    return url.slice(url.lastIndexOf('/') + 1);
 	}
-	/*function disableEditExistingKeys(whiteList) {
-		var localStorageKeys = Object.keys(localStorage);
 
-		//console.log(localStorageKeys);
+	function isNineAm(now) {
+	  return now.getHours() === 9;
+	}
+	function reloadPage() {
+	  window.history.go(0);
+	}
 
-		win.addEventListener('storage', function (e) {
-			var fileName = getUrlFilename(e.url);
-			if (whiteList && whiteList.indexOf(fileName) !== -1) {
-				return ;
-			}
-
-			if (localStorageKeys.indexOf(e.key) !== -1) {
-				var msg = fileName + '正在修改localStorage，被修改的key是' + e.key + ', 相应原值是' + e.oldValue + '，新值是' + e.newValue + '。旧值已被还原';
-				// 还原旧值
-				storage(e.key, e.oldValue);
-				console.warn('_s: '+ msg);
-				alert(msg);
-			}
-
-		}, false);
-	}*/
 
 	;(function init() {
 		//changeBackground(true);
@@ -435,6 +424,16 @@
 		};*/
 
 		recordPageViewedTimes();
+		// reload at every 9:00 AM only once
+		var now = new Date();
+		if (isNewDay(now)) {
+			win.setInterval(function reload() {
+			  if (isNineAm(now)) {
+			  	alert('new day at 9 AM, reload the page');
+			  	reloadPage();
+			  }
+			}, 10 * 60);
+		}
 
 		// 标题栏点击进入相关主题搜索
 		$('.titles').on('mouseover', 'a', function () {
@@ -453,10 +452,11 @@
 				this.focus();
 			},
 			'focus': function () {
-			    this.select();
+			  this.select();
 			},
 			'keydown': function (e) {
-			    if(e.keyCode === 13) {
+		    if(e.keyCode === 13) {
+		    	e.preventDefault();
 					if (displayInput.value === '') {
 						return false;
 					}
@@ -500,4 +500,4 @@
 		//disableEditExistingKeys(['websites_tab.html', 'websites_140220.html', 'test-drawer.html', 'imageViewer.html']);
 	}());
 
-}());
+}(window, document, jQuery));

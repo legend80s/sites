@@ -13,7 +13,7 @@
 (function () {
 	var win = window,
 		legend = win.legend,
-		anchor = legend.html.makeAnchor, 
+		anchor = legend.html.makeAnchor,
 		min = win.Math.min,
 
 		submit = legend.siteTab.submit,
@@ -25,21 +25,21 @@
 		encURIComp = win.encodeURIComponent,
 		id = legend.html.id,
 
-		prevInput = '' + Math.random(), 
+		prevInput = '' + Math.random(),
 		prevFlag = 'baidu',
-		input = id('display-search-kw'), 
+		input = id('display-search-kw'),
 		$sugar = $('#sugar'),
-		$sugarUl = $('#sugar > ul'), 
+		$sugarUl = $('#sugar > ul'),
 		sugarUrl = '',
 		sugarCache = {}, // 所有的query为空的推荐缓存至sugarCache
-		MAX_SUGAR_COUNT = 10, 
-		
+		MAX_SUGAR_COUNT = 10,
+
 		sugar = {
 			'baidu': makeBaiduSuggestionUrl, // 百度搜索 百度
 			'baiduPan': makeBaiduSuggestionUrl, // 百度网盘 百度
 			'buptLib': makeBaiduSuggestionUrl, // 北邮人图书馆 百度
 			'buptBt': makeBaiduSuggestionUrl, // 北邮人BT 百度
-			
+
 			'google': makeGoogleSuggestionUrl, // 谷歌搜索 谷歌
 			'w3school': makeGoogleSuggestionUrl, // w3school 谷歌
 
@@ -52,11 +52,11 @@
 		iqiyiSugar = 'http://suggest.video.iqiyi.com/?rltnum=10&callback=legend.cb.handleIqiyiSuggestion&key=',
 		iqiyiHot = 'http://search.video.qiyi.com/qiso3/?if=hotQuery&p=10&cb=gIqiyiHotQueries',
 		youkuSearchUrl = 'http://www.soku.com/v?keyword=',
-		
+
 		googleSugar = 'https://www.google.com.hk/complete/search?client=hp&hl=zh-CN&callback=legend.cb.handleGoogleSuggestion&q=',
 		baiduSugar = 'http://suggestion.baidu.com/su?ie=utf-8&json=1&p=3&cb=legend.cb.handleBaiduSuggestion&wd=',
 		// &_=new Date().getTime()
-		youdaoSugar = 'http://dsuggest.ydstatic.com/suggest/suggest.s?query=', 
+		youdaoSugar = 'http://dsuggest.ydstatic.com/suggest/suggest.s?query=',
 		// keyfrom=dict.suggest&
 		sohuSugar = 'http://tip.tv.sohu.com/s?callback=legend.cb.handleSohuSuggestion&encode=utf-8&key=',
 		cb = legend.cb = legend.cb || {}; // 所有的jsonp回调函数挂载于此
@@ -86,8 +86,8 @@
 				$sugLis = $sugarUl.addClass('sg-minHeight').find('li'),
 				catagories = {
 					'default': ['类型', '主演', '年代', '播放'],
-					movie: ['类型', '主演', '年代', '播放'], 
-					person: ['国籍', '职业', '生日', '详情'], 
+					movie: ['类型', '主演', '年代', '播放'],
+					person: ['国籍', '职业', '生日', '详情'],
 					music: ['类型', '歌手', '年代', '播放'],
 					show: ['类型', '主持人', '年代', '播放'],
 					tvDrama: ['类型', '主演', '年代', '播放'],
@@ -102,35 +102,35 @@
 				img = d.imgs;
 				if (img.link[i]) {
 					$panel = $('<div class="panel"></div>');
-					
+
 					titles = d.titles;
 					info = infos[i];
 
 					catagory = catagories[info.tag || 'movie'];
-					
+
 					//console.log(info.tag);
 					//console.log(catagory);
 
 					actors = info.starring? info.starring: '暂无';
 
-					item = '<div class="item"><div class="thumb"><a href="' + img.link[i] + 
-						'" target="_blank" title="' + titles.title[i] + '"><img width="70" height="105" src="' + img.src[i] + '" alt="' + img.alt[i] + '"></a></div><div class="title"><a href="' + titles.link[i] + 
+					item = '<div class="item"><div class="thumb"><a href="' + img.link[i] +
+						'" target="_blank" title="' + titles.title[i] + '"><img width="70" height="105" src="' + img.src[i] + '" alt="' + img.alt[i] + '"></a></div><div class="title"><a href="' + titles.link[i] +
 
 						'" target="_blank" title="' + titles.title[i] + '">' + titles.title[i] + '</a></div>' + (info.type?'<div class="pub">'+
-							catagory[0]+': ' + info.type + '</div>':'') + '<div class="actor" title="' + 
+							catagory[0]+': ' + info.type + '</div>':'') + '<div class="actor" title="' +
 
 						actors + '">' +catagory[1] +': ' + actors + '</div>' + '<div class="period">' +catagory[2] +': ' + (info.year?info.year:'暂无') + '</div><div class="play"><a class="btn btn_play_s" href="' + info.playUrl + '" target="_blank" title="' + info.playPrompt + '"><em>'+(info.canPlay?'播放':'详情')+'</em><i class="ico_play"></i></a></div></div>';
-					
+
 					// 增加剧集 begin
-					var recentEpsInfo = info.update || '', 
+					var recentEpsInfo = info.update || '',
 						eps = info.episodes;
 
 					if (eps && eps.length > 1) {
-						item += '<ol class="eps">'; //增加 class="eps"为了剧集 mouseover 事件 
+						item += '<ol class="eps">'; //增加 class="eps"为了剧集 mouseover 事件
 
 						var epsLen = eps.length,
 							MAX_EPISODE = 6,
-							tempLen = min(MAX_EPISODE, epsLen) - 1, 
+							tempLen = min(MAX_EPISODE, epsLen) - 1,
 							ep;
 
 						// 展现 4 + 1 + 1 部
@@ -139,13 +139,13 @@
 						for (var epsIndex = 0; epsIndex < tempLen; ++epsIndex) {
 							ep = eps[epsIndex];
 						    item += '<li>' + anchor({
-								'title': '第'+ep.num+'集', 
-								'href': ep.url, 
-								'class': 'episode', 
+								'title': '第'+ep.num+'集',
+								'href': ep.url,
+								'class': 'episode',
 								'eps-info': ep.desc
 								}, ep.num) + '</li>';
 						}
-						// 最后1集 
+						// 最后1集
 						ep = eps[epsLen - 1];
 						item += '<li>' + anchor({'title': '第'+ep.num+'集', 'href': ep.url, 'class': 'episode', 'eps-info': ep.desc}, ep.num) + '</li></ol>';
 
@@ -163,7 +163,7 @@
 					$('.thumb img').on('error', function () {
 					    picerr(this, 6);
 					});
-					// 增加小箭头 
+					// 增加小箭头
 					$sugLis.eq(i).append('<span class="expand">></span>');
 					$sugLis[i].appendChild($panel[0]);
 				}
@@ -190,7 +190,7 @@
 
 		return function (host) {
 			var hostInfo = _sgHosts[host];
-			_footerLink.textContent = hostInfo[0]; 
+			_footerLink.textContent = hostInfo[0];
 			_footerLink.href = hostInfo[1];
 		}; // var host = getSearchHost().text;
 	}());
@@ -204,7 +204,7 @@
 			hide($sugar);
 			return ;
 		}
-		
+
 		var lists = '',
 			item,
 			i,
@@ -237,7 +237,7 @@
 		// [0], $([0]), .eq(0), .first(), .filter(":first"), :first
 		// http://jsperf.com/jquery-first-vs-first-vs-eq-0-vs-0/2
 		expandFirstPicItem();
-		
+
 		setSugarFooter(host);
 		// 优酷等视频网站query为空时保存一份至内存，不必每次都请求
 		if (query === '') {
@@ -260,13 +260,13 @@
 		handleSuggestion('google', items, sg[0]);
 	};
 	function getVideoDetails(imgs, titles, infos) {
-	    
+
 	}
 	cb['handleYoukuSuggestion'] = function (sg) {
 		//console.log(sg);
 		var items = [];
 		var r = sg.r;
-		
+
 		// imgs and titles's link is the same
 		var imgs = {'src':['','','','','','','','','',''], 'link':['','','','','','','','','',''],'alt':['','','','','','','','','','']};
 		var titles = {'title':['','','','','','','','','',''], 'link':['','','','','','','','','','']};
@@ -286,7 +286,7 @@
 				imgs.link[i] = youkuSearchUrl + value.j; // youku呈现的是搜索结果不是value.d
 				imgs.alt[i] = prompt;
 				titles.title[i] = value.j;
-				
+
 				infos[i].type = (value.m && (value.m+'-'+value.w)) || '';
 				infos[i].starring = value.p.replace(/,/g, ' ');
 				infos[i].year = value.y;
@@ -300,7 +300,7 @@
 				infos[i].playPrompt = prompt; //value.c == 0 ? '播放第一集' : '暂无播放源';
 			}
 		}
-		
+
 		titles.link = imgs.link;
 
 		var videoInfor = hasPic? {'imgs': imgs, 'titles': titles, 'infos': infos}: null;
@@ -336,10 +336,10 @@
 		var titles = {'title':['','','','','','','','','',''], 'link':['','','','','','','','','','']};
 		//var info = {'type':'', 'starring':'', 'year':'', 'playLink':''};
 		var infos = [{},{},{},{},{},{},{},{},{},{}]; // 有必要的话，提供初始值
-		var desc = null, sohuSearchUrl = 'http://so.tv.sohu.com/mts?wd=', 
-			playLink, serial, prompt, 
-			types = {'100':'电影', '101':'电视剧', '106':'综艺', 
-			'115':'动漫', '121':'音乐', '200': '人物'}, 
+		var desc = null, sohuSearchUrl = 'http://so.tv.sohu.com/mts?wd=',
+			playLink, serial, prompt,
+			types = {'100':'电影', '101':'电视剧', '106':'综艺',
+			'115':'动漫', '121':'音乐', '200': '人物'},
 			type,
 			episodes,
 			serialRecent,
@@ -362,7 +362,7 @@
 				prompt = (serialRecent && serialRecent.t) || keyword;
 				searchUrl = sohuSearchUrl + decodeURIComponent(keyword);
 				type = types[desc.cid];
-				
+
 				imgs.src[i] = desc.pic;
 				imgs.link[i] = desc.album || searchUrl;
 				imgs.alt[i] = prompt;
@@ -373,13 +373,13 @@
 				if (type !== '人物') {
 					infos[i].type = types[desc.cid] + ((desc.language && ' (' + desc.language + ')') || '');
 					infos[i].tag = (type !== '音乐' ? 'default' : 'music');
-					infos[i].canPlay = true; // 2014/7/16 0:46 
+					infos[i].canPlay = true; // 2014/7/16 0:46
 				} else {
-				    infos[i].type = desc.c;	
+				    infos[i].type = desc.c;
 					infos[i].tag = 'person'; // 2014/8/5 21:19 人物
-					infos[i].canPlay = false; // 2014/7/16 0:46 
+					infos[i].canPlay = false; // 2014/7/16 0:46
 				}
-				
+
 				infos[i].starring = (desc.actors && desc.actors.replace(/;/g, ' ')) || desc.p;
 				infos[i].year = desc.year || desc.b; // b for human's birthday
 
@@ -392,8 +392,8 @@
 					infos[i].episodes = [];
 					for (var epsIndex = 0, epsLen = episodes.length; epsIndex < epsLen; ++epsIndex) {
 					    infos[i].episodes.push({
-							'num': episodes[epsIndex].no, 
-							'desc': episodes[epsIndex].t, 
+							'num': episodes[epsIndex].no,
+							'desc': episodes[epsIndex].t,
 							'url': episodes[epsIndex].u
 						});
 					}
@@ -419,8 +419,8 @@
 		var items = [],
 			r = sg.data,
 			imgs = {
-				'src':['','','','','','','','','',''], 
-				'link':['','','','','','','','','',''], 
+				'src':['','','','','','','','','',''],
+				'link':['','','','','','','','','',''],
 				'alt':['','','','','','','','','','']
 			},
 			titles = {
@@ -447,10 +447,10 @@
 			//console.log(r);
 
 		for (i = 0; i < itemCount; ++i) {
-		    value = r[i]; 
+		    value = r[i];
 			query = value.name;
 			items.push(query);
-			
+
 			//console.log('value ' + i);console.log(value);
 
 			if (value.picture_url) {
@@ -467,20 +467,20 @@
 				//console.log('main_actor');console.log(value.main_actor);
 				infos[i].starring = value.main_actor ? value.main_actor.join(' ') : '';
 				infos[i].year = value.year;
-				
+
 				if (tags[value.cid] === void 0) {
 					console.warn('爱奇艺类型不确定，id = ' + value.cid + '，type = ' + type + '，目前类型包括：', tags);
 				}
 				infos[i].tag = tags[value.cid] || 'movie'; // 为了和其他视频归一化
-	
-				playUrl = type === '综艺' ? 
-					value.recentLink: 
+
+				playUrl = type === '综艺' ?
+					value.recentLink:
 					value.link_address && value.link_address[0];
 
 				infos[i].canPlay = !!playUrl; // 2014/7/16 0:47 | 2014/12/19 22:14
 				infos[i].playUrl = playUrl || searchUrl;
 				infos[i].playPrompt = type === '综艺' ? '播放最新一期' : '播放第一集';
-				
+
 				// 增加剧集 serial:
 				if (value.is_series) {
 					linkAddrs = value.link_address;
@@ -494,8 +494,8 @@
 						num = (num = title.match(dateRegExp)) ? num[0]: epsIndex + 1;
 						//console.log(epsIndex);
 					    infos[i].episodes.push({
-							'num': num, 
-							'desc': title, 
+							'num': num,
+							'desc': title,
 							'url': linkAddrs[epsIndex]
 						});
 					}
@@ -518,7 +518,7 @@
 		handleSuggestion('iqiyi', items, q, hasInitialSuggestions, videoInfor);
 	};
 	/*function handleIqiyiHotQueries() {
-	    
+
 	}*/
 	// handle suggestion end
     function makeBaiduSuggestionUrl(key) {
@@ -543,13 +543,13 @@
 	function callSuggest(host) {
 		var val = input.value.trim(),
 			cachedHtml;
-		
+
 		//console.log('val = ' + val, 'prevInput = ' + prevInput);
 		if (val !== prevInput || host !== prevFlag) {
 			//alert('in if');
 			prevInput = val;
 			prevFlag = host;
-			
+
 			// 从内存取出
 			if (val === '') {
 				cachedHtml = sugarCache[host];
@@ -563,10 +563,43 @@
 
 			$('.legend_cb_handleXSuggestion').remove(); // 效率高 可完全删除
 
+			// 如果Google挂了，转到 http://unionsug.baidu.com/su?wd=anguar&cb=
+			if(host === 'google') {
+				console.log('尝试Google搜索');
+				// https://www.google.com.hk/complete/search?client=hp&hl=zh-CN&callback=legend.cb.handleGoogleSuggestion&q=
+				jQuery.ajax({
+					url: googleSugar,
+					// type: 'GET',
+					// data: { q: '' },
+					dataType: 'jsonp',
+					// jsonp: 'callback',
+					timeout: 3000
+				})
+				.success(function () {
+			  	input.classList.remove('alert-danger');
+			    console.info('可以用Google');
+				})
+				.error(function () {
+			  	input.classList.add('alert-danger');
+				  console.error('Google暂时用不了');;
+				});
+
+				// jQuery.getScript(googleSugar, function() {
+			 //    console.info('可以用Google');
+			 //  })
+			 //  .fail(function() {
+			 //  	input.classList.add('alert-danger');
+			 //    console.log('Google暂时用不了， 用 http://www.guge.link/ 或 http://www.baidu.com.se/ 吧');
+			 //  });
+			}
+
 			sugarUrl = sugar[host](val);
 
 			(sugarUrl === '') && hide($sugar);
-			loadScript(sugarUrl, function () {				
+
+
+
+			loadScript(sugarUrl, function () {
 				// 照顾爱奇艺 hot queries
 				// 回调函数竟然是变量 gIqiyiHotQueries
 				var undef,
@@ -593,7 +626,7 @@
 			}, 'legend_cb_handleXSuggestion');
 		}
 	}
-	
+
 	var sugarTimer;
 	$(input).on({
 		'keyup': function (e) {
@@ -645,10 +678,12 @@
 			prev = cur,
 			prevItem;
 
+
+
 		if (upDownToSelectItem.autoHilight && down(key)) {
 			upDownToSelectItem.autoHilight = false;
 			prevItem = $sugItems[prev].getAttribute('data-item');
-			
+
 			if (prevItem !== input.value) {
 				input.value = prevItem;
 				return ;
@@ -657,10 +692,10 @@
 
 		(prev !== -1) && $($sugItems[prev]).removeClass('cur');
 		//$sugItems.removeClass('cur');
-		
-	    if (down(key)) {
+
+	  if (down(key)) {
 			cur++;
-	    }
+	  }
 		else if (up(key)) {
 			cur--;
 		}
@@ -706,5 +741,6 @@
 			e.target.nodeName !== 'A' && submit();
 		}
 	}, 'li');
+
 
 })();

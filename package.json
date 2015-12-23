@@ -1,0 +1,17 @@
+{
+  "name": "site",
+  "version": "1.0.0",
+  "description": "favorite sites with searching and news",
+  "main": "js/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "sites"
+  ],
+  "author": "legend80s",
+  "license": "MIT",
+  "dependencies": {
+    "bootstrap": "~3.3.6"
+  }
+}

@@ -53,7 +53,7 @@
 
 	$('#jquery-drawer-alibaba').drawer({
 		links: [
-			{ name: '内外', href: 'https://work.alibaba-inc.com/' },
+			{ name: '内外', href: 'https://work.alibaba-inc.com/work/home' },
 			{ name: '周报', href: 'https://work.alibaba-inc.com/sns/workreportModify#!rep/modify/send' },
 			{ name: '邮件', href: 'https://webmail.alibaba-inc.com/alimail/' }
 		],

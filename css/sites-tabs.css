@@ -115,7 +115,7 @@ a {text-decoration:none;}
 .headers table, .headers td{border:0px dashed;}
 .headers td {padding:6px 0px;}
 
-.headers input {
+.search-input {
 	width: 494px;
 	font-size: 16px;
 	padding-left: 6px;
@@ -123,6 +123,11 @@ a {text-decoration:none;}
 	border: 1px solid #8A8A8A;
 	background-color: rgba(255, 255, 255, 0.9);
 }
+
+.alert-danger {
+	border-color: #f00;
+}
+
 .headers select {
 	font-size: 17px;
 	color: blue;
