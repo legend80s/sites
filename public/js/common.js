@@ -4,10 +4,8 @@
  * legend80s-bupt
  */
 
-;(function () {
-	var win = window,
-		doc = document,
-		legend = win.legend = win.legend || {};
+;(function ($, win, doc) {
+	var legend = win.legend = win.legend || {};
 	
 	// legend 添加方法
 	legend.createNS = createNS;
@@ -23,7 +21,6 @@
 	string.engQuotationToCh = engQuotationToCh();
 	// legend.html 添加方法
 	var html = legend.html = legend.html || {};
-	//console.log(loadScript());
 	html.loadScript = loadScript();
 	html.makeAnchor = makeAnchor;
 	html.makeImgStr = makeImgStr;
@@ -213,19 +210,15 @@
 	function loadScript() {
 		var otherScript = doc.getElementsByTagName('script')[0];
 		
-		return function (url, succ, /*fail, */cls) {
+		return function (url, succ, cls) {
+      //console.log('load url: ' + url);
 			var script = doc.createElement("script");
 			script.async = true;
 
 			if (!url) {
 				return ;
 			}
-			//console.log('loading js from: ' + url);
-			/*var script = doc.createElement("script"),
-				otherScript = doc.getElementsByTagName('script')[0];;
 
-			//script.type = "text/javascript";
-			script.async = true;*/
 			cls && (script.className = cls);
 			
 			// onreadystatechange 注册必须在 appendChild 之前
@@ -237,16 +230,13 @@
 							script.onreadystatechange = null; // 防止 ie < 6 内存泄漏        
 							succ(script);
 						}
-						/*else {
-							fail && fail();
-						}*/
+						
 					}
 				} 
 				else { //others        
 					script.onload = function() {              
 						succ(script);
-					}   
-					//fail && (script.onerror = fail);
+					}
 				}
 			}
 			script.src = url;
