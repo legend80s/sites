@@ -10,7 +10,7 @@
 	var win = window,
 		doc = document,
 		min = win.Math.min,
-		eq2ch = win.legend.string.engQuotationToCh,
+		engQuotationToCh = win.legend.string.engQuotationToCh,
 		picerr = win.legend.pic.err,
 		createNS = win.legend.createNS,
 		loadScript = win.legend.html.loadScript,
@@ -206,7 +206,14 @@
 				userName: ''
 			},
 			youkuRecord: 'http://www.youku.com/index_cookielist/s/jsonp?callback=CloudRecords.getRecordsData&timestamp=14053567327141vmki908bv',*/
-			news360: 'http://tjapi.news.so.com/youlike?callback=legend.cb.setNewsData&f=jsonp&n='
+
+			// 2016-05-14 废止
+			// news360: 'http://tjapi.news.so.com/youlike?callback=legend.cb.setNewsData&f=jsonp&n=',
+
+			// 2016-05-14
+			// news360: 'http://platform.sina.com.cn/slide/album?app_key=3044399383&format=json&ch_id=4&level=1&sub_ch=star&jsoncallback=jsoncallback&jsoncallback=setNewsData&_=1463225608931&num=',
+			news360: 'http://pc.recommend.kandian.360.cn/youlike?callback=legend.cb.setNewsData&u=50067044.684434595571092600.1463224557425.7512&f=jsonp&o=rand&fr=home&option=history&c=fun&pos=1463227129335&_=1463227180350&n=',
+
 			// http://zy.youku.com/
 			// 360娱乐新闻 http://tjapi.news.so.com/youlike?callback=gSetNewsData&f=jsonp&c=fun
 			// 新浪新闻 2014/11/7 12:12
@@ -246,42 +253,6 @@
 		return resrc;
 	})(Resource || {});
 	var rankedVideosUrls = Resource.urls.rankedVideosUrls;
-
-	/*win.Youku = {};
-	Youku.getUserinfo = function (u) {
-		//console.log('getUserinfo');console.log(u);
-	    Resource.urls.youku.userId = u.userId || '', Resource.urls.youku.userName = u.userName || '';
-	};*/
-	function fta(n) {
-	    if (n < 10000) {
-			return n;
-	    }
-		var w1 = n * 0.0001, w2 = w1 | 0, q = (w1 - w2) * 1000 | 0;
-		return w2 + '万' + q;
-	}
-	/*
-	Youku.getUserRecommend = function (video) {
-		//console.log('youku recommend:');console.log(r.data);
-		//var fv = formatVideoData(vs);
-
-		var vs = video.data, banner, v, linkcls = 'i-title', desc,
-			u = Resource.urls.youku.userName, user = u ? '您好 ' + u : '',
-			r = ['<div class="videos"><p class="from">来自优酷 '+ user +'</p><ul>'];
-		Resource.urls.youku.userName = '';
-		// tab.video.config.MAX_VIDEO_COUNT
-		for (var i = 0, len = min(vs.length, videoMax); i < len; ++i) {
-			v = vs[i];
-			totalTime = ftm(v.totalTime);
-			playAmount = fta(v.playAmount);
-			banner = '<div class="banner"><p class="left-banner">播放'+playAmount+'次</p><p class="right-banner">'+totalTime+'</p></div>';
-			desc = (v.desc || v.title).slice(0, 47);
-			r.push(['<li><div><a href="', v.playLink, '" title="', desc, '"><img width="180" height="101" src="', v.picUrl, '" alt="', v.title, '"/>', banner, '</a></div><div class="', linkcls, '"><p class="ellipsis"><a href="', v.playLink, '" title="', v.title, '">', v.title, '</a></p></div></li>'].join(''));
-		}
-		r.push('</div></ul>');
-		$('#video').find('.videos').remove();
-	    $videoTop.after(r.join(''));
-	};
-	*/
 
 	// 增加360搜索综艺排行榜
 	function fillBottomVideo(data, page) {
@@ -336,6 +307,10 @@
 	}
 	function addBottomVideoByPage(page) {
 		//console.log('get video from page: ' + page);
+		if ($('#video-bottom').is(':hidden')) {
+			$('#video-bottom').show();
+		}
+
 		Resource.load(rankedVideosUrls['360'], function () {
 			var html = Resource.video360Rank.htmls[page];
 			//console.log('addBottomVideoByPage, page: ', page, ' html: ', html);
@@ -381,13 +356,16 @@
 		}
 		tab.hasVideoLoaded = true; // 阻止首次自动加载和切tab，重复加载2次的问题
 		// 保证只出现一条
-		$('.video360Top-jsonp').remove();
-		Resource.load('video360Top', null, function () {
-			topVideoCallback && topVideoCallback();
-		    //win.setTimeout(function () {
-				//addBottomVideoByPage(1);
-			//}, 100);
-		}, 'video360Top-jsonp');
+
+		// 360视频推荐用不了 - 2016-05-14
+		// $('.video360Top-jsonp').remove();
+		// Resource.load('video360Top', null, function () {
+		// 	topVideoCallback && topVideoCallback();
+		//     //win.setTimeout(function () {
+		// 		// addBottomVideoByPage(1);
+		// 	//}, 100);
+		// }, 'video360Top-jsonp');
+
 		//Resource.load('iqiyi');
 		//Resource.load('youku');
 
@@ -408,6 +386,9 @@
 				// 只有第一次切tab 才 load online
 				//(key === 'video') && !hasTopVideos() && addTopVideos();
 				(key === 'news') && !hasNewsDisplayed() && loadNews(news.getRequestNumber());
+				if (key === 'video') {
+					addBottomVideoByPage(1);
+				}
 
 				prevTitle.removeClass('active');
 				prevTitle = $('li[data-key=' + key + ']').addClass('active');
@@ -516,7 +497,7 @@
 
 		// fill data for the first one
 		upinfo = '第' + (first.pd ? first.pd + '期' : first.upinfo + '集');
-		title = eq2ch((first.pdname || first.title)) + ' 更新至' + upinfo;
+		title = engQuotationToCh((first.pdname || first.title)) + ' 更新至' + upinfo;
 
 		videoInfos = '<li class="first others1">' + makeAnchor('立即播放', playUrl, 'play orange-color', '播放'+upinfo+' - 来自' + video.videoFrom(playUrl)) + '<a href="' + searchHost + encode(first.kw) + '" class="area" title="' + title + '"></a><img onerror="legend.pic.err(this,4)" src="' + first.cover + '" alt="' + first.title + '"/><div class="con"><h4>[' + first.type + '] ' + first.title + '</h4><p>更新至：<strong>' + upinfo + '</strong></p></div></li>';
 
@@ -539,23 +520,6 @@
 		$videoTop[0].innerHTML = videoInfos;
 		storage('videoInfos', videoInfos);
 	};
-
-	function refreshVideos() {
-		tab.hasVideoLoaded = false; // 阻止首次自动加载和切tab，重复加载2次的问题
-		//rankedVideosBody.innerHTML = ''; // 清除上一次的视频
-		Resource.video360Rank.htmls = [];// 清空 bottom video 缓存
-		var cont = $('.ps-container');
-		var c = cont.css('background-color');
-
-		cont.css('background-color', 'rgba(0, 0, 0, 0.5)');
-		addTopVideos();
-		setTimeout(function () {
-			//console.log(cont.css('background-color'));
-			//console.log(c);
-			cont.css('background-color', c);
-			//console.log(cont.css('background-color'));
-		}, 500);
-	}
 
 	;(function (news) {
 		var _med,
@@ -700,8 +664,9 @@
 		news.from = newsFrom;
 	}(news)); // 立即执行
 
-	cb.setNewsData = function (n) {
-	    //console.log(n);
+	cb.setNewsData = function (response) {
+	  console.log('show news count', response.length);
+	  const n = response;
 		//alert('gSetNewsData');
 		if (n.length === 0) {
 			console.log('error: no news available now');
@@ -720,10 +685,12 @@
 			prompt;
 
 		for (i = 0, newsCount = n.length; i < newsCount; ++i) {
-			title = eq2ch(n[i].t); // 防止属性被截断
-			src = n[i].i.split('?')[0];
+			// title = engQuotationToCh(n[i].t); // 防止属性被截断
+			title = n[i].t;
+			src = n[i].i;
 			link = n[i].u;
-			prompt = title + '\n- 来自' + news.from(link);
+			prompt = title + '\n- 来自' + n[i].f;
+			// prompt = title + '\n- 来自' + news.from(link);
 			//console.log('src ' + i + ': ' + src);
 			if (src !== '') {
 				picClass = ' pic';//
@@ -810,6 +777,7 @@
 		$('.news360').remove();
 		//requestNumber = number;
 		loadScript(Resource.urls['news360'] + number, null, 'news360');
+		// 真正将返回数据嵌入页面是回调函数做的
 	}
 
 	/*function showNews() {
@@ -831,14 +799,14 @@
 	*/
 	// 增加 page num begin
 	function checkMore() {
-		var videoBottomBox = doc.getElementById('video-bottom'),
-			videoUnfold;
+		var videoBottomBox = doc.getElementById('video-bottom');
+		var videoUnfold;
 
-	    if ($('.video-top')[0].innerHTML.length === 0) {
+	  if ($('.video-top')[0].innerHTML.length === 0) {
 			videoBottomBox.style.display = 'block';
 		}
 		else {
-		    $('.ps-container').append('<p class="video-unfold" id="video-unfold">查看更多视频</p>')
+		  $('.ps-container').append('<p class="video-unfold" id="video-unfold">查看更多视频</p>')
 			// 增加点击查看更多
 			videoUnfold = doc.getElementById('video-unfold');
 
@@ -878,6 +846,7 @@
 	// 这个闭包没有加分号[;]导致 error: undefined is not a function
 	;(function init() {
 		initBottomVideoAndPageView();
+
 		// 因为每次都要查看视频tab，不如待页面其他元素加载完成后自动加载视频
 		// 第一次从本地存储加载
 		if (!Resource.showVideoFromLocalStorage()) {
@@ -890,7 +859,6 @@
 		}
 		//win.setTimeout(showNews, 1000);
 	    switchTab();
-		$('.settings').on('click', '.refresh', refreshVideos);
 		$('.unread').on('click', function () {
 		    loadNews(news.getRequestNumber());
 		});

@@ -66,7 +66,8 @@
 			today = w[0];
 			tomorrow = w[1];
 
-			imgSrc = 'images/weather/' + today.code + '.png',
+			// imgSrc = 'images/weather/' + today.code + '.png',
+			imgSrc = 'http://p1.qhimg.com/d/_hao360/weather/' + today.code + '.png';
 
 			description = '今 ' + today.status + ' ' + today.low + ' ~ ' + today.high + '℃<br />明 ' +
 				tomorrow.status + ' ' + tomorrow.low + ' ~ ' + tomorrow.high + '℃<br />' + city,

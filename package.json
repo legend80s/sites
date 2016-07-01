@@ -2,8 +2,10 @@
   "name": "site",
   "version": "1.0.0",
   "description": "favorite sites with searching and news",
-  "main": "js/index.js",
+  "main": "server.js",
   "scripts": {
+    "hot-server": "nodemon",
+    "start": "pm2 start server.js --name \"mysite\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
@@ -12,6 +14,11 @@
   "author": "legend80s",
   "license": "MIT",
   "dependencies": {
-    "bootstrap": "~3.3.6"
+    "koa": "^1.2.0",
+    "koa-static": "^2.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.9.2",
+    "pm2": "^1.1.3"
   }
 }

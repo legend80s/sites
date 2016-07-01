@@ -9,7 +9,11 @@
 // 添加优酷 <p class="progress">已看到第21集的95%</p>
 // 添加剧集选择 #FF7800 - 橘黄色，来自腾讯视频
 // 修改footer 2014/12/10 11:25
+
+// 2016-02-23 新闻推荐
+// https://www.hao123.com/sugdata_s4.json?r=-808997
 //
+
 (function () {
 	var win = window,
 		legend = win.legend,
@@ -36,9 +40,9 @@
 
 		sugar = {
 			'baidu': makeBaiduSuggestionUrl, // 百度搜索 百度
-			'baiduPan': makeBaiduSuggestionUrl, // 百度网盘 百度
-			'buptLib': makeBaiduSuggestionUrl, // 北邮人图书馆 百度
-			'buptBt': makeBaiduSuggestionUrl, // 北邮人BT 百度
+			// 'baiduPan': makeBaiduSuggestionUrl, // 百度网盘 百度
+			// 'buptLib': makeBaiduSuggestionUrl, // 北邮人图书馆 百度
+			// 'buptBt': makeBaiduSuggestionUrl, // 北邮人BT 百度
 
 			'google': makeGoogleSuggestionUrl, // 谷歌搜索 谷歌
 			'w3school': makeGoogleSuggestionUrl, // w3school 谷歌
@@ -164,7 +168,7 @@
 					    picerr(this, 6);
 					});
 					// 增加小箭头
-					$sugLis.eq(i).append('<span class="expand">></span>');
+					$sugLis.eq(i).append('<span class="arrow">></span>');
 					$sugLis[i].appendChild($panel[0]);
 				}
 			}
@@ -521,9 +525,9 @@
 
 	}*/
 	// handle suggestion end
-    function makeBaiduSuggestionUrl(key) {
+  function makeBaiduSuggestionUrl(key) {
 		return key ? baiduSugar + encURIComp(key): '';
-    }
+  }
 	function makeGoogleSuggestionUrl(key) {
 		return key ? googleSugar + encURIComp(key) : '';
 	}
@@ -564,24 +568,26 @@
 			$('.legend_cb_handleXSuggestion').remove(); // 效率高 可完全删除
 
 			// 如果Google挂了，转到 http://unionsug.baidu.com/su?wd=anguar&cb=
+			input.classList.remove('alert-danger');
+
 			if(host === 'google') {
-				console.log('尝试Google搜索');
+				// console.log('尝试Google搜索');
 				// https://www.google.com.hk/complete/search?client=hp&hl=zh-CN&callback=legend.cb.handleGoogleSuggestion&q=
 				jQuery.ajax({
 					url: googleSugar,
 					// type: 'GET',
 					// data: { q: '' },
-					dataType: 'jsonp',
+					// dataType: 'jsonp',
 					// jsonp: 'callback',
 					timeout: 3000
 				})
-				.success(function () {
+				.then(function () {
 			  	input.classList.remove('alert-danger');
-			    console.info('可以用Google');
+			    // console.info('可以用Google');
 				})
-				.error(function () {
+				.fail(function () {
 			  	input.classList.add('alert-danger');
-				  console.error('Google暂时用不了');;
+				  // console.error('Google暂时用不了');;
 				});
 
 				// jQuery.getScript(googleSugar, function() {
@@ -593,11 +599,8 @@
 			 //  });
 			}
 
-			sugarUrl = sugar[host](val);
-
-			(sugarUrl === '') && hide($sugar);
-
-
+			sugarUrl = sugar[host] ? sugar[host](val) : makeBaiduSuggestionUrl(val);
+			sugarUrl === '' && hide($sugar);
 
 			loadScript(sugarUrl, function () {
 				// 照顾爱奇艺 hot queries
@@ -643,11 +646,11 @@
 			    callSuggest(getSearchHost());
 			}, 350);
 		},
-		'keydown': function (e) {
+		keydown: function (e) {
 			//console.log('keydown');
 			!isHidden($sugar) && upOrDownHit(e.which) && upDownToSelectItem(e.which);
 		},
-		'click': function () {
+		click: function () {
 			// 增加点击显示下拉
 			callSuggest(getSearchHost());
 			$sugarUl[0].textContent && show($sugar);
@@ -671,17 +674,21 @@
 	});
 
 	// 上下按键控制下拉列表选中
-	function upDownToSelectItem(key) {
-		var $sugItems = $sugarUl.find('li'),
+	function upDownToSelectItem(key) { // children
+		var $sugItems = $sugarUl.children('li'),
 			len = $sugItems.length,
 			cur = upDownToSelectItem.cur,
 			prev = cur,
 			prevItem;
 
-
+		if (len > 10) {
+			throw new RangError('下拉提示不应该超过10条');
+		}
 
 		if (upDownToSelectItem.autoHilight && down(key)) {
 			upDownToSelectItem.autoHilight = false;
+
+			console.log('prev', prev);
 			prevItem = $sugItems[prev].getAttribute('data-item');
 
 			if (prevItem !== input.value) {

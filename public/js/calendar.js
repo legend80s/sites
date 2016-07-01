@@ -8,6 +8,8 @@
 
 ;(function () {
 	// 使calendar接口public
+	const BY_DAY = false;
+
 	var win = window,
 		doc = document,
 		l = win.legend,
@@ -170,7 +172,7 @@
 			setBackground(lunarHoliday.bgimg);
 		}
 		else {
-		    changeBackground(true);
+		  changeBackground(BY_DAY);
 			console.warn(lunarHoliday.name + '没有背景图片，改用普通背景图片');
 		}
 		
@@ -232,7 +234,7 @@
 		}
 		else {
 			console.warn('_c: ' + greHoliday.name + '没有背景图片');
-			changeBackground(true);
+			changeBackground(BY_DAY);
 		}
 			
 		$('#calendar').append('<p class="tl">' + makeAnchor(greHoliday.name, greHoliday.url) + '：' + greHoliday.brief + '</p>');
@@ -305,7 +307,7 @@
 		if (!isTodayLunarHoliday && !isTodayGreHoliday) {
 			if (!isSolarTerm) {
 				//$('#no-activities').show();
-				changeBackground(true);
+				changeBackground(BY_DAY);
 			}
 			//alert('no holidays, no need to load holiday-data.js');
 			return ;

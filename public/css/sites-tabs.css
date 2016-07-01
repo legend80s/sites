@@ -5,9 +5,16 @@
 
 body,p,dl,dd,table,td,th,img,form,div,ol,ul,li,input,h4,figure,select {margin:0; padding:0;}
 
-body{
+body {
 	font-family: '微软雅黑', 'Microsoft YaHei', 'Malgun Gothic';
-	background: fixed 50% / cover;
+	// background-size: cover;
+	// background-position-y: 50%;
+	// background-position-x: 50%;
+	// background-position-y: 40%;
+	// background-size: initial;
+
+	transition: background 1s;
+	background: fixed 50% 40% / cover;
 }
 
 a[href^=http] {/*http://camnpr.com/upload/2013/8//hand_white.cur*/
@@ -66,7 +73,7 @@ a {text-decoration:none;}
 	width: 71%; /* 763px 802px*/
 	margin: 0 21%; /* 259px */
 	font-size: 20px;
-	font-weight: bold;
+	// font-weight: bold;
 }
 
 .sites table {
@@ -79,9 +86,9 @@ a {text-decoration:none;}
 
 .sites tr:nth-of-type(even) { background-color: rgba(182, 216, 250, .75); }
 /* F0F5FB light-gray #B6D8FA*/
-.tape {
-	box-shadow: 64px 0px 0px #FFFFAE;
-}
+// .tape {
+// 	box-shadow: 64px 0px 0px #FFFFAE;
+// }
 .sites td:nth-last-of-type(1) {
 	border-radius: 0 5px 5px 0;
 }
@@ -92,7 +99,7 @@ a {text-decoration:none;}
 .sites caption {
 	color: #0F1375;
 	padding: 4px 0;
-	border-radius: 0px 10px 0 0;
+	border-radius: 0px 4px 0 0;
 	font-weight: normal;
 }
 .sites a {color:#004398;}
@@ -101,7 +108,7 @@ a {text-decoration:none;}
 /* table in header */
 .headers {
 	width: 58%;
-	margin: 2% auto;
+	margin: 2em auto;
 	font-size: 20px;
 }
 
@@ -113,14 +120,34 @@ a {text-decoration:none;}
 .headers a:hover {text-decoration:underline; color:#B33035; }
 
 .headers table, .headers td{border:0px dashed;}
-.headers td {padding:6px 0px;}
+.headers .titles td {
+  padding-top: 0;
+}
+.headers td { padding: 6px 0px; }
+
+.headers .search-bar {
+  margin-left: 13%;
+}
+
+.expanded .titles,
+.expanded .style-select {
+	transition: visibility 500ms;
+	visibility: hidden;
+}
+
+.expanded .input-hovered .titles,
+.expanded .input-hovered .style-select {
+	visibility: visible;
+}
+
 
 .search-input {
 	width: 494px;
 	font-size: 16px;
 	padding-left: 6px;
 	height: 30px;
-	border: 1px solid #8A8A8A;
+	// border: 1px solid #8A8A8A;
+	border: 1px solid #b8b8b8;
 	background-color: rgba(255, 255, 255, 0.9);
 }
 
@@ -267,7 +294,8 @@ a {text-decoration:none;}
 }
 
 .sg-minHeight {
-	min-height: 170px;
+	// min-height: 170px;
+	min-height: 220px;
 }
 
 .sugar ul {
@@ -496,12 +524,13 @@ a {text-decoration:none;}
 	position: relative;
 }
 
-.sugar .expand {
+.sugar .arrow {
 	width: 20px;
 	height: 20px;
 	position: absolute;
 	/*top: 4px;*/
-	left: 276px;
+	// left: 276px;
+	left: 55%;
 	background: url(../images/common/right-arrow.png) no-repeat;
 	margin: 4px 0;
 
@@ -534,14 +563,13 @@ a {text-decoration:none;}
 	width: 20px;
 	height: 20px;*/
 }
-.today {
-	display: inline-block;
-	height: 88px;
-	font-size: 14px;
-	text-align: center;
-	margin-right: 19px;
-}
-#weather-today {
-	border-radius: 50%;
+.weather-box {
+  /*display: inline-block;*/
+  position: absolute;
+  right: 5%;
+  /*height: 88px;*/
+  font-size: 14px;
+  text-align: center;
+  /*margin-right: 19px;*/
 }
 /* weather.css end */
