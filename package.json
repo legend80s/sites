@@ -1,24 +1,18 @@
 {
-  "name": "site",
+  "name": "search",
   "version": "1.0.0",
-  "description": "favorite sites with searching and news",
+  "description": "favorite sites with suggestions",
   "main": "server.js",
   "scripts": {
-    "hot-server": "nodemon",
-    "start": "pm2 start server.js --name \"mysite\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
-    "sites"
+    "search"
   ],
-  "author": "legend80s",
+  "author": "Catholine",
   "license": "MIT",
   "dependencies": {
-    "koa": "^1.2.0",
-    "koa-static": "^2.0.0"
   },
   "devDependencies": {
-    "nodemon": "^1.9.2",
-    "pm2": "^1.1.3"
   }
 }

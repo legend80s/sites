@@ -1,187 +1,54 @@
 <!doctype html>
 <html lang="zh-CN">
 <head>
-<base target="_blank" />
-<meta charset="utf-8" />
-<link rel="shortcut icon" href="favicon.ico" />
-<title>我的网址</title>
-<link href="css/sites-tabs.css" rel="stylesheet" />
-<link href="css/tab.css" rel="stylesheet" />
-<link href="css/brief.css" rel="stylesheet" />
-<!-- <link href="node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" /> -->
-<link href="js/jquery/plugins/css/setNumber.css" rel="stylesheet" />
-<link href="js/jquery/plugins/css/drawer.css" rel="stylesheet" />
-<link href="js/jquery/plugins/css/pageView.css " rel="stylesheet" />
-
-<style type="text/css">
-/* drawer.customer.css */
-/* 还是有重复
-[id^='jquery-drawer'] {
-	background: url(images/common/down_arrow_24.png) no-repeat 100% 50%;
-}*/
-[id^='jquery-drawer'] > a {
-	background: url(images/common/down_arrow_24.png) no-repeat 110% 50%;
-	display: inline-block;
-	width: 100%;
-}
-[id^='jquery-drawer']:hover {
-	outline: 1px solid #B8B8B8;
-}
-
-ul.jquery-drawer-201412252127 {
-	font-size: 14px;
-	margin-top: 14px;
-	margin-left: -11px;
-	width: 104px;
-}
-</style>
-
-<script src="js/jquery/jquery-3.0.0.min.js"></script>
-<script src="js/common.js"></script>
-
+	<base target="_blank" />
+	<meta charset="utf-8" />
+	<link rel="shortcut icon" href="favicon.ico" />
+	<title>我的网址</title>
+	<link href="css/index.css" rel="stylesheet" />
 </head>
 
-<body id="top">
-<div class="calendar" id="calendar">
-	<p class="date" id="date"></p>
-	<div id="lunar">
-		<p class="lunar-date" id="lunar-date"></p>
-	</div>
-	<div id="term"></div>
-</div>
-
-<div class="headers" id="headers">
-	<div class="weather-box" id="weatherBox">
-		<a href="http://www.baidu.com/s?wd=%E5%A4%A9%E6%B0%94&ie=utf-8">
-			<img id="weather-today" src="images/common/loading48.gif" />
-			<div id="weather-info">天气加载中...</div>
-		</a>
-	</div>
-
-	<table class="inline-block search-bar" id="searchBar">
-		<tr class="titles">
-			<td><a href="http://www.baidu.com/">网页</a></td>
-			<td><a href="http://music.163.com/">音乐</a></td>
-			<td><a href="http://image.baidu.com/">图片</a></td>
-			<td><a href="http://www.youku.com/">优酷</a></td>
-			<td><a href="http://dict.youdao.com/">翻译</a></td>
-			<td><a href="http://news.baidu.com/">新闻</a></td>
-			<!-- <td><a href="http://tieba.baidu.com/">贴吧</a></td> -->
-			<!-- <td><a href="http://zhidao.baidu.com/">知道</a></td> -->
-			<td><span class="bg" id="changer">背景</span></td>
-      <td><span class="bg" id="panelToggler">隐藏</span></td>
-		</tr>
-		<tr>
-		<td colspan="10"><form id="search-form" action="">
-
-		<input id="display-search-kw" class="search-input font-kor" tabindex="1" autofocus="autofocus" maxlength="200" autocomplete="off" />
-		<!-- 有道 -->
-		<input type="hidden" id="real-search-kw" name="word" value="" />
-		<input type="hidden" id="youdao-params" name="le" value="eng" disabled="disabled" />
-
-		<select id="search-select" class="font-wryh style-select">
-			<option value="baidu">百度搜索</option>
-			<option value="google" selected="selected">谷歌搜索</option>
-			<!-- <option value="w3school">w3school</option> -->
-			<!-- <option value="youdao">youdao</option> -->
-			<!-- <option value="buptLib">北邮图书</option> -->
-			<!-- <option value="buptBt">北邮人BT</option> -->
-			<option value="baiduPan">百度网盘</option>
-			<option value="youku">优酷视频</option>
-			<option value="sohu">搜狐视频</option>
-			<option value="iqiyi">爱奇艺</option>
-			<option value="jd">京东</option>
-			<option value="taobao">淘宝</option>
-			<option value="tmall">天猫</option>
-		</select>
-		</form>
-		<!-- feature 1: suggestion - 2014/6/11 16:28  -->
-		<div class="sugar hidden" id="sugar">
-			<ul></ul>
-			<small class="footer">来自<a id="sg-footer-link"></a></small>
-			<!-- <h1 class="hot-queries-today">今日热搜</h1> -->
-		</div>
-		</td>
-		</tr>
-	</table>
-</div>
-
-<div class="body" id="mainPanel">
-<ul class="menus" id="menus">
-	<li data-key="site" class="menu first active">网址大全</li>
-	<li data-key="video" class="menu">视频更新</li>
-	<li data-key="news" class="menu">新闻头条</li>
-</ul>
-<div class="tabs">
-	<div id="site" class="sites cur">
-		<table class="siteTable">
-			<caption class="lbbg tape">酷站大全</caption>
-			<tbody class="font-consolas">
-			<tr><th>名站</th><td><a href="http://pan.baidu.com/">百度云</a></td><td><a href="https://www.google.com/">Google</a>&#8226;<a href="http://weibo.com/">微博</a></td><td><a href="http://yjxt.bupt.edu.cn/">我的</a>&#8226;<a href="http://www.grs.bupt.cn/">研究生院</a></td><td><a href="http://bbs.byr.cn/#!default">北邮人论坛</a>&#8226;<a href="http://bt.byr.cn/torrents.php">bt</a></td><td><a href="http://10.106.0.217:8080/opac_two/reader/infoList.jsp">我的</a>&#8226;<a href="http://lib.bupt.edu.cn/">图书馆</a></td><td id="jquery-drawer-alibaba"><a href="https://www.taobao.com/">淘宝</a></td>
+<body>
+	<div class="headers" id="headers">
+		<table class="inline-block search-bar" id="searchBar">
+			<tr class="titles">
+				<td><a href="http://www.baidu.com/">网页</a></td>
+				<td><a href="http://music.163.com/">音乐</a></td>
+				<td><a href="http://image.baidu.com/">图片</a></td>
+				<td><a href="http://www.youku.com/">优酷</a></td>
+				<td><a href="http://dict.youdao.com/">翻译</a></td>
+				<td><a href="http://news.baidu.com/">新闻</a></td>
+				<td><span class="bg" id="changer">背景</span></td>
 			</tr>
+			<tr>
+			<td colspan="10"><form id="search-form" action="">
 
-			<tr><th>视频</th><td><a href="http://www.youku.com/">优酷</a></td><td><a href="http://www.tudou.com/">土豆</a></td><td><a href="http://www.iqiyi.com/">爱奇艺</a></td><td><a href="http://tv.sohu.com/">搜狐</a></td><td><a href="http://news.mtime.com/">Mtime</a></td><td><a href="http://v.qq.com/">腾讯</a></td></tr>
+			<input id="display-search-kw" class="search-input font-kor" tabindex="1" autofocus="autofocus" maxlength="200" autocomplete="off" />
+			<!-- 有道 -->
+			<input type="hidden" id="real-search-kw" name="word" value="" />
+			<input type="hidden" id="youdao-params" name="le" value="eng" disabled="disabled" />
 
-			<tr><th>社交</th><td><a href="http://qzone.qq.com/">qq空间</a></td><td><a href="http://www.renren.com/">人人网</a></td><td><a href="http://www.youtube.com/">YouTube</a>&#8226;<a href="http://www.utubechinese.com.tw/">台湾</a></td><td><a href="http://www.tianya.cn/">天涯社区</a></td><td><a href="http://www.mop.com/">猫扑</a></td><td id="jquery-drawer-tvs"><a href="http://iptv.bupt.edu.cn/">电视台</a></td></tr>
-
-			<tr><th>邮箱</th><td><a href="http://mail.163.com/">163邮箱</a></td><td><a href="http://mail.qq.com/">qq邮箱</a></td><td><a href="https://mail.google.com/mail/?shva=1#inbox">gmail</a></td><td><a href="http://open.163.com/">网易公开课</a></td><td><a href="http://mail.sina.com.cn/">新浪邮箱</a></td><td class="tape"><a href="http://mail.139.com/">139邮箱</a></td></tr>
-
-			<tr><th>编程</th><td><a href="http://www.w3school.com.cn">w3school</a></td><td><a href="http://msdn.microsoft.com/en-us/library/ew69e79d.aspx">msdn</a></td><td><a href="http://www.cplusplus.com/reference/">c++_reference</a></td><td><a href="http://developer.android.com/index.html">android</a></td><td><a href="http://bonsaiden.github.io/JavaScript-Garden/zh/">js秘密花园</a></td><td><a href="http://www.w3cplus.com/">w3cplus</a></td></tr>
-
-			<tr><th>博客</th><td><a href="http://blog.csdn.net/">csdn</a></td><td><a href="http://news.cnblogs.com/">cnblogs</a></td><td><a href="http://coolshell.cn/">coolshell</a></td><td><a href="http://www.blueidea.com/tech/web/index.asp">蓝色理想</a></td><td><a href="http://www.36kr.com/">36氪</a></td><td id="jquery-drawer-blogs"><a href="http://www.nowcoder.com/">牛客</a></td></tr>
-
-			<tr><th>购物</th><td><a href="http://www.jd.com/">京东</a></td><td><a href="http://www.amazon.cn/" target="Amazon">亚马逊</a></td><td><a href="http://www.taobao.com/" target="Amazon">淘宝</a></td><td><a href="http://www.thepaper.cn/">澎湃网</a></td><td><a href=""></a></td><td><a href=""></a></td></tr>
-
-			<tr><th>其他</th><td><a href="https://www.weiyun.com/disk/index.html?login">微云</a></td><td><a href="http://www.easyicon.net/">easyicon</a></td><td><a href="http://www.chinaz.com/news/">chinaz</a></td><td><a href="http://www.iconpng.com/">iconpng</a></td><td><a href="http://subhd.com/">字幕</a></td><td class="tape"></td></tr>
-			</tbody>
+			<select id="search-select" class="font-wryh style-select">
+				<option value="baidu">百度搜索</option>
+				<option value="youku">优酷视频</option>
+				<option value="sohu">搜狐视频</option>
+				<option value="jd">京东</option>
+				<option value="tmall">天猫</option>
+			</select>
+			</form>
+			<div class="sugar hidden" id="sugar">
+				<ul></ul>
+				<small class="footer">来自<a id="sg-footer-link"></a></small>
+			</div>
+			</td>
+			</tr>
 		</table>
 	</div>
-	
-	<div id="video">
-		<div class="card_ob">
-			<dl class="card_line">
-				<dd class="ps-container">
-					<!-- <div class="settings">
-						<a href="javascript:void(0);" title="更新节目单" class="refresh"><img src="images/common/refresh-24.png" class="rotate" alt="刷新" width="32px" height="32px"><br />更新节目</a>
-					</div>
-					<ul class="video-top"></ul> -->
-				</dd>
-			</dl>
 
-		</div>
-	</div>
-
-	<div id="news" class="news">
-		<p class="unread">
-		<span class="a">有未读新闻，点击刷新</span>
-		</p>
-		<div id="news-number-settings" class="a"></div>
-	</div>
-</div>
-
-<div class="scroll-items" id="scroll-items">
-	<a id="toTop" href="javascript:void(0);" class="baseToTop" title="回顶部"></a>
-	<div class="top-notice">返回顶部</div>
-</div>
-</div>
-
-<script src="js/weather.js"></script>
-<script src="js/vendor/lodash.min.js"></script>
-<script src="js/index.js"></script>
-<script src="js/calendar.js"></script>
-<script src="js/sugar.js"></script>
-<script src="js/tab.js"></script>
-
-<!-- jquery插件必备 pluginUtil.js - 2015/1/7 -->
-<script src="js/jquery/plugins/js/pluginUtil.js"></script>
-<!-- jquery插件：分页查看pageView - 2014/8/30 19:55 -->
-<script src="js/jquery/plugins/js/pageView.js"></script>
-<!-- jquery插件：设置显示新闻条数setNumber - 2014/11/14 13:28 -->
-<script src="js/jquery/plugins/js/setNumber.js"></script>
-<!-- jquery插件：鼠标悬停显示其他链接drawer - 2014/12/25, 2015/1/5 -->
-<script src="js/jquery/plugins/js/drawer.js"></script>
-<!-- 运行jquery插件 - 2015/1/7 -->
-<script src="js/jquery/plugins/js/run.js"></script>
-
+	<script src="js/vendor/lodash.min.js"></script>
+	<script src="js/vendor/jquery-3.0.0.min.js"></script>
+	<script src="js/common.js"></script>
+	<script src="js/index.js"></script>
+	<script src="js/sugar.js"></script>
 </body>
 </html>
