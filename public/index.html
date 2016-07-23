@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+	<base target="_blank" />
+	<meta charset="utf-8" />
+	<link rel="shortcut icon" href="favicon.ico" />
+	<title>我的网址</title>
+	<link href="css/index.css" rel="stylesheet" />
+</head>
+
+<body>
+	<div class="headers" id="headers">
+		<table class="inline-block search-bar" id="searchBar">
+			<tr class="titles">
+				<td><a href="http://www.baidu.com/">网页</a></td>
+				<td><a href="http://music.163.com/">音乐</a></td>
+				<td><a href="http://image.baidu.com/">图片</a></td>
+				<td><a href="http://www.youku.com/">优酷</a></td>
+				<td><a href="http://dict.youdao.com/">翻译</a></td>
+				<td><a href="http://news.baidu.com/">新闻</a></td>
+				<td><span class="bg" id="changer">背景</span></td>
+			</tr>
+			<tr>
+			<td colspan="10"><form id="search-form" action="">
+
+			<input id="display-search-kw" class="search-input font-kor" tabindex="1" autofocus="autofocus" maxlength="200" autocomplete="off" />
+			<!-- 有道 -->
+			<input type="hidden" id="real-search-kw" name="word" value="" />
+			<input type="hidden" id="youdao-params" name="le" value="eng" disabled="disabled" />
+
+			<select id="search-select" class="font-wryh style-select">
+				<option value="baidu">百度搜索</option>
+				<option value="youku">优酷视频</option>
+				<option value="sohu">搜狐视频</option>
+				<option value="jd">京东</option>
+				<option value="tmall">天猫</option>
+			</select>
+			</form>
+			<div class="sugar hidden" id="sugar">
+				<ul></ul>
+				<small class="footer">来自<a id="sg-footer-link"></a></small>
+			</div>
+			</td>
+			</tr>
+		</table>
+	</div>
+
+	<script src="js/vendor/lodash.min.js"></script>
+	<script src="js/vendor/jquery-3.0.0.min.js"></script>
+	<script src="js/common.js"></script>
+	<script src="js/index.js"></script>
+	<script src="js/sugar.js"></script>
+</body>
+</html>
