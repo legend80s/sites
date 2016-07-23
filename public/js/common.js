@@ -4,7 +4,7 @@
  * legend80s-bupt
  */
 
-;(function ($, win, doc) {
+;(function (win, doc) {
 	var legend = win.legend = win.legend || {};
 	
 	// legend 添加方法
@@ -98,69 +98,6 @@
 	function id(str, wrapper) {
 		return typeof str === 'string' ? (wrapper || doc).getElementById(str) : str;
 	};
-/*	
-	function _tag(t, wrapper) {
-		return typeof t === 'string' ? (wrapper || doc).getElementsByTagName(t) : t;
-	}
-	// base.js end
-
-	// common.js begin
-	// xml operations begin
-	function _loadXMLDoc(xml, callback) {
-		var xmlhttp;
-		if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
-			xmlhttp = new XMLHttpRequest();
-		}
-		else { // code for IE6, IE5
-			xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
-		}
-		
-		// onreadystatechange 注册必须在 open 之前
-		// 否则无法监测到 onreadystatechange 事件
-		xmlhttp.onreadystatechange = function() { 
-			if (xmlhttp.readyState == 4) { // && xmlhttp.status == 200
-				callback(xmlhttp.responseXML, xmlhttp.responseText);
-			}
-		};
-
-		try {
-			xmlhttp.open("GET", xml, true); // 异步
-			xmlhttp.send();
-		}
-		catch (e) {
-			console.log(e.message);
-		}
-		
-	}
-	// 操作 xml
-	function _getXmlChildElement(parent) {
-		var elems = [];
-		if (parent) {
-			var children = parent.childNodes;
-			for (var i = 0, len = children.length; i < len; ++i) {
-				children[i].nodeType === 1 && elems.push(children[i]); // element type
-			}
-		}
-		return elems;
-	}
-
-	function _tagXml(tag, wrapper) {
-		if (tag && wrapper) {
-			return wrapper.getElementsByTagName(tag);
-		}
-	}
-
-	function _value(tag, wrapper) {
-		var node = tagXml(tag, wrapper)[0].firstChild;
-		return node ? node.nodeValue : '';
-	}
-	// xml end
-
-	// legend.string begin
-	function _trim(s) {
-		return s.replace(/^\s\s* /g, '').replace(/\s\s*$/g, '');
-	}
-*/
 
 	function engQuotationToCh() {
 		var engQuatationRegExp = /[\"\']([^\"\']*)[\"\']/g;
@@ -169,36 +106,7 @@
 			return str.replace(engQuatationRegExp, '“$1”');
 		};
 	}
-	// legend.string end
 
-	// legend.html begin
-	/*function _loadIframe(url, cls, success, wrapper) {
-		if (!url) {
-			return ;
-		}
-		console.log('loading iframe by: ' + url);
-
-		var iframe = doc.createElement('iframe');
-		iframe.width = '0';
-		iframe.height = '0';
-		iframe.scrolling='no';
-		iframe.frameborder='0';
-		iframe.style.display = 'none';
-		success = success || function() {};
-		iframe.src = url;
-		cls && (iframe.className = cls);
-		if(iframe.attachEvent){
-			iframe.attachEvent("onload",function(){
-				success();
-			});
-		}else{
-			iframe.onload = function() {
-				success();
-			}
-		}
-		(wrapper || doc.body).appendChild(iframe);
-	}
-	*/
 	/*
 	“uninitialized” – 原始状态 
 	“loading” – 下载数据中..
@@ -498,5 +406,5 @@
 	//legend.pic end
 
 	// common.js end
-}());
+}(window, window.document));
 

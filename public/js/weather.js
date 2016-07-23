@@ -3,6 +3,7 @@
 // 2014/6/18 22:38
 // 七天天气 http://tianqi.2345.com/t/7day_tq_js/54511.js
 // cityid http://tianqi.2345.com/t/shikuang/54511.js?1434292820058
+
 (function () {
 	var win = window,
 		today = new Date(),
