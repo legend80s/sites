@@ -153,19 +153,19 @@
     const scarlett = makeImageNames(13, 'ScarlettJohansson-');
     const joycechu = makeImageNames(9, 'joycechu-');
     const exo = makeImageNames(8, 'exo-');
-    const 林允儿 = makeImageNames(3, '林允儿-');
-    const 新垣结衣 = makeImageNames(4, '新垣结衣-');
+    const 林允儿 = makeImageNames(3, 'Yoona-');
+    const 新垣结衣 = makeImageNames(4, 'AragakiYui-');
     const elizabethOlsen = makeImageNames(3, 'elizabeth-olsen-');
     const monicaBellucci = makeImageNames(2, 'monica_bellucci-');
     celebrities = celebrities.concat(scarlett, joycechu, exo, 林允儿, 新垣结衣, elizabethOlsen, monicaBellucci)
       .map(prefix('celebrities/'));
     
     const breakBad = makeImageNames(19, 'breaking_bad_', '.jpg', { 11: '.png', 17: '.png' });
-    const 欢乐颂  = makeImageNames(4, '欢乐颂-');
+    const 欢乐颂  = makeImageNames(4, 'OdeToJoy-');
     const gameOfThrones = makeImageNames(22, 'game_of_thrones-');
     const theHobbits = makeImageNames(10, 'the_hobbit-');
     const theWalkingDead = makeImageNames(6, 'the_walking_dead-')
-    const frozen = makeImageNames(4, '冰雪奇缘-');
+    const frozen = makeImageNames(4, 'frozen-');
     
     const dramas = [].concat(breakBad, 欢乐颂, gameOfThrones, theHobbits, theWalkingDead, frozen).map(prefix('dramas/'));
 
