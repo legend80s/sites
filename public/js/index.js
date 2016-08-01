@@ -94,9 +94,6 @@
       }
     },
 
-    DEFAULT_WORDS = 'Enter a term...',
-    gTimerID = null,
-
     searchForm = doc.forms['search-form'],
     formElements = searchForm.elements,
     searchInput = formElements['real-search-kw'],
@@ -110,7 +107,7 @@
 
   var changeBackground = (function () {
     let imgs = [
-      'yellow1.jpg', 'determination.jpg', 'kor1.jpg', 'chocolate1.jpg', 
+      'yellow1.jpg', 'determination.jpg', 'chocolate1.jpg', 
       'pool.jpg', 'daddy-huangLei.jpg',
       
       'qq-1.jpg', 'qq-2.jpg', 'qq-3.jpg', 'qq-4.jpg', 'qq-5.jpg', 'qq-6.jpg',
@@ -143,7 +140,7 @@
     // 明星
     let celebrities = [
       '请回答1997-1.jpg', '请回答1997-2.jpg', '请回答1997-3.jpg', '请回答1997-5.jpg', '请回答1997-6.jpg',
-      '赵丽颖-01.jpg',
+      'ZhaoLiYing-01.jpg',
       'Angelababy-01.jpg', 'Angelababy-02.jpg', 'Angelababy-03.jpg',
       '郑恩地01.jpg', '范冰冰-01.jpg',
       '陈意涵01.jpg', '陈意涵02.jpg',
@@ -169,7 +166,7 @@
     
     const dramas = [].concat(breakBad, 欢乐颂, gameOfThrones, theHobbits, theWalkingDead, frozen).map(prefix('dramas/'));
 
-    const summerPalace = makeImageNames(5, '颐和园-');
+    const summerPalace = makeImageNames(5, 'SummerPalace-');
     const scene = [].concat(summerPalace).map(prefix('scene/'));
     imgs = imgs.concat(celebrities, dramas, scene);
 
