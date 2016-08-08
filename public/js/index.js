@@ -125,6 +125,8 @@
 
       // Google themes
       'google-polygram.png', 'google-cat-in-rain.png',
+
+      'red_love_heart_tree-wide.jpg',
     ];
 
     const prefix = str =>  _.partial(_.add, str);
