@@ -125,8 +125,6 @@
 
       // Google themes
       'google-polygram.png', 'google-cat-in-rain.png',
-
-      'red_love_heart_tree-wide.jpg',
     ];
 
     const prefix = str =>  _.partial(_.add, str);
@@ -141,13 +139,38 @@
     }
     // 明星
     let celebrities = [
-      '请回答1997-1.jpg', '请回答1997-2.jpg', '请回答1997-3.jpg', '请回答1997-5.jpg', '请回答1997-6.jpg',
+      'Reply1997-1.jpg', 'Reply1997-2.jpg', 'Reply1997-3.jpg', 'Reply1997-5.jpg', 'Reply1997-6.jpg',
       'ZhaoLiYing-01.jpg',
       'Angelababy-01.jpg', 'Angelababy-02.jpg', 'Angelababy-03.jpg',
-      '郑恩地01.jpg', '范冰冰-01.jpg',
-      '陈意涵01.jpg', '陈意涵02.jpg',
-      '高圆圆-01.jpeg',
+      'ZhenEnDi-01.jpg', 'FanBingBing-01.jpg',
+      'ChenYiHan01.jpg', 'ChenYiHan02.jpg',
+      'GaoYuanYuan-01.jpeg',
     ];
+
+    const scenes = [
+      "a_red_rose_for_you-1280x960.jpg",
+      "autumn_fall_season-1440x900.jpg",
+      "autumn_in_japan-1440x900.jpg",
+      "beautiful_japan_cg-1440x900.jpg",
+      "canal_rocks-1440x900.jpg",
+      "chinatown_hdr-1440x900.jpg",
+      "creative_japan_world-1440x900.jpg",
+      "curme_islands-1440x900.jpg",
+      "deer_silhouette_4k-1440x900.jpg",
+      "fall_ginkgo_trees_autumn_japan-1440x900.jpg",
+      "hq_japan_nature_rain_fall-1440x900.jpg",
+      "japan_digital_scenery-1440x900.jpg",
+      "moonlight_walk-1440x900.jpg",
+      "mountain_range.jpg",
+      "mountain_rock_stream_iceland-1440x900.jpg",
+      "posbank_sunrise_4k-1440x900.jpg",
+      'red_love_heart_tree-wide.jpg',
+      "sunlight-1440x900.jpg",
+      "sunny_fall_day-1440x900.jpg",
+      "sunrise_upper_ice_lake_basin-1280x960.jpg",
+      "sunset_rocks_shore_beach_stream-1440x900.jpg",
+      "winter_landscapes_hd-1280x960.jpg",
+    ]
 
     const scarlett = makeImageNames(13, 'ScarlettJohansson-');
     const joycechu = makeImageNames(9, 'joycechu-');
@@ -166,10 +189,15 @@
     const theWalkingDead = makeImageNames(6, 'the_walking_dead-')
     const frozen = makeImageNames(4, 'frozen-');
     
-    const dramas = [].concat(breakBad, 欢乐颂, gameOfThrones, theHobbits, theWalkingDead, frozen).map(prefix('dramas/'));
+    const dramas = [
+      "amanda_seyfried_in_red_riding_hood-1440x900.jpg",
+      "batman_4k_8k-1440x900.jpg",
+      "titanfall_2_5k-1440x900.jpg",
+      "civilization_6_4k-1440x900.jpg"
+    ].concat(breakBad, 欢乐颂, gameOfThrones, theHobbits, theWalkingDead, frozen).map(prefix('dramas/'));
 
     const summerPalace = makeImageNames(5, 'SummerPalace-');
-    const scene = [].concat(summerPalace).map(prefix('scene/'));
+    const scene = scenes.concat(summerPalace).map(prefix('scene/'));
     imgs = imgs.concat(celebrities, dramas, scene);
 
     console.log('imgs length', imgs.length);

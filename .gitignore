@@ -31,3 +31,6 @@ images
 
 #test
 **/test/
+htpasswd
+public/private_aksecrete/
+public/shared/

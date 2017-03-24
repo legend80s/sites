@@ -62,7 +62,7 @@
 		// &_=new Date().getTime()
 		youdaoSugar = 'http://dsuggest.ydstatic.com/suggest/suggest.s?query=',
 		// keyfrom=dict.suggest&
-		sohuSugar = 'http://tip.tv.sohu.com/s?callback=legend.cb.handleSohuSuggestion&encode=utf-8&key=',
+		sohuSugar = 'http://tip.tv.sohu.com/s?callback=legend.cb.handleSohuSuggestion&encode=utf-8&source=pc&key=',
 		cb = legend.cb = legend.cb || {}; // 所有的jsonp回调函数挂载于此
 
 	function show($node) {
@@ -267,20 +267,31 @@
 
 	}
 	cb['handleYoukuSuggestion'] = function (sg) {
-		//console.log(sg);
-		var items = [];
-		var r = sg.r;
+		// console.log(sg);
+		const isSuggestionsFromNoQuery = sg.q === '';
+		// 当有历史搜索记录 sg.a.r
+		// 否则 sg.r
+		const r = isSuggestionsFromNoQuery ? (sg.r ? sg.r : sg.a.r) : sg.r;
 
 		// imgs and titles's link is the same
-		var imgs = {'src':['','','','','','','','','',''], 'link':['','','','','','','','','',''],'alt':['','','','','','','','','','']};
-		var titles = {'title':['','','','','','','','','',''], 'link':['','','','','','','','','','']};
-		//var info = {'type':'', 'starring':'', 'year':'', 'playLink':''};
-		var infos = [{},{},{},{},{},{},{},{},{},{}], prompt, // 有必要的话，提供初始值
-			i, value, itemCount = min(r.length, MAX_SUGAR_COUNT),
-			hasPic;
+		const imgs = {
+			'src': ['','','','','','','','','',''],
+			'link': ['','','','','','','','','',''],
+			'alt': ['','','','','','','','','',''],
+		};
+		const titles = {'title':['','','','','','','','','',''], 'link':['','','','','','','','','','']};
+		//const info = {'type':'', 'starring':'', 'year':'', 'playLink':''};
+		const infos = [{},{},{},{},{},{},{},{},{},{}];
+		const itemCount = min(r.length, MAX_SUGAR_COUNT);
+		let prompt; // 有必要的话，提供初始值
+		let i;
+		let value;
+		let hasPic;
+		
+		const items = [];
 
 		for (i = 0; i < itemCount; ++i) {
-			items.push(r[i].c);
+			items.push(isSuggestionsFromNoQuery ? r[i].w : r[i].c);
 			if (r[i].u) {
 				hasPic = true;
 				value = r[i].u[0];
@@ -307,14 +318,13 @@
 
 		titles.link = imgs.link;
 
-		var videoInfor = hasPic? {'imgs': imgs, 'titles': titles, 'infos': infos}: null;
+		const videoInfor = hasPic? {'imgs': imgs, 'titles': titles, 'infos': infos}: null;
 
-		//var videoInfor = getVideoDetails();
+		//const videoInfor = getVideoDetails();
 
 		//console.log(videoInfor);
-		var q = sg.q;
-		var hasInitialSuggestions = (items.length === MAX_SUGAR_COUNT && q === '');
-		handleSuggestion('youku', items, q, hasInitialSuggestions, videoInfor);
+		const q = sg.q;
+		handleSuggestion('youku', items, q, isSuggestionsFromNoQuery, videoInfor);
 	};
 	// handleYoudaoSuggestion begin
 	win['aa'] = win['aa'] || {};
@@ -535,7 +545,7 @@
 		return key ? youdaoSugar + encURIComp(key) : '';
 	}
 	function makeYoukuSuggestionUrl(key) {
-		return 'http://tip.soku.com/search_'+(key?'keys':'yun')+'?jsoncallback=legend.cb.handleYoukuSuggestion&query='+encURIComp(key)+'&site=2&t='+(new Date().getTime());
+		return 'http://tip.soku.com/search_'+(key?'keys':'tip_1')+'?jsoncallback=legend.cb.handleYoukuSuggestion&query='+encURIComp(key)+'&site=2&t='+(new Date().getTime());
     }
 	function makeSohuSuggestionUrl(key) {
 		return sohuSugar + encURIComp(key) + (key? '': '&top=1');

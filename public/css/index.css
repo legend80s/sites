@@ -15,6 +15,7 @@ body {
 
   transition: background 1s;
   background: fixed 50% 40% / cover;
+  background-color: rgba(0,0,0,.8);
 }
 
 a[href^=http] {/*http://camnpr.com/upload/2013/8//hand_white.cur*/
